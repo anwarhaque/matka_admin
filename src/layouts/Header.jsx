@@ -1,11 +1,18 @@
-// src/components/Header.jsx
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
   const handleToggle = () => {
     document.getElementById("sidebar").classList.toggle("collapsed");
   };
+
+  const auth = useAuth();
+
+  const handleLogout = (event) => {
+    event.preventDefault();
+    auth.logout();
+};
 
   return (
     <nav className="navbar navbar-expand navbar-light navbar-bg">
@@ -33,7 +40,7 @@ const Header = () => {
               <Link className="dropdown-item" to="/change-password"><i className="align-middle me-1"
                 data-feather="pie-chart"></i> Change Password</Link>
               <div className="dropdown-divider"></div>
-              <Link className="dropdown-item" to="/">Log out</Link>
+              <Link className="dropdown-item" onClick={handleLogout}>Log out</Link>
             </div>
           </li>
         </ul>
