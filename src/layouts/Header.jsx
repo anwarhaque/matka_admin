@@ -8,7 +8,7 @@ const Header = () => {
   };
 
   const auth = useAuth();
-
+  
   const handleLogout = (event) => {
     event.preventDefault();
     auth.logout();
@@ -24,15 +24,10 @@ const Header = () => {
         <ul className="navbar-nav navbar-align">
          
           <li className="nav-item dropdown">
-            <Link className="nav-icon dropdown-toggle d-inline-block d-sm-none" 
-              data-bs-toggle="dropdown">
-              <i className="align-middle" data-feather="settings"></i>
-            </Link>
-
             <Link className="nav-link dropdown-toggle d-none d-sm-inline-block" 
               data-bs-toggle="dropdown">
-              <img src="img/avatars/avatar.jpg" className="avatar img-fluid rounded me-1"
-                alt="Charles Hall" /> <span className="text-dark">Charles Hall</span>
+              <img src="img/avatars/user-pic.png" className="avatar img-fluid rounded-circle me-1"
+                alt={auth?.currentUser?.name} /> <span className="text-dark">{auth?.currentUser?.name}</span>
             </Link>
             <div className="dropdown-menu dropdown-menu-end">
               <Link className="dropdown-item" to="/profile"><i className="align-middle me-1"

@@ -16,6 +16,8 @@ import AgentLimit from './components/limits/agentLimit';
 import Login from './components/login/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for Toastify
 
 function App() {
 
@@ -38,6 +40,7 @@ function App() {
             <Route path="change-password" element={<ChangePassword />} />
           </Route>
         </Routes>
+        <ToastContainer /> {/* Add ToastContainer here to display toasts globally */}
       </AuthProvider>
     </Router>
   )

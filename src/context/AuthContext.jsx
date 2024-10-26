@@ -1,7 +1,8 @@
 // src/context/AuthContext.jsx
 import { createContext, useContext, useState, useEffect } from 'react';
 import Axios from '../api/Axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import Notifier from '../components/Notifier';
 
 
 const AuthContext = createContext();
@@ -10,62 +11,48 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState(false);
   const navigate = useNavigate()
-
+  const location = useLocation();
 
   useEffect(() => {
     // Check for the token in localStorage on component mount
     const userData = JSON.parse(localStorage.getItem('superAuthToken'));
     if (userData?.token) {
-      
-
-      Axios.get('/verify-token') 
-        .then(res => {
-          // Token is valid, keep authenticated
-          if( res.data?.meta?.status){
-            setCurrentUser(userData)
-            setIsAuthenticated(true);
-            navigate("/");
-          }
-          
-        })
-        .catch(error => {
-          // Token is invalid, clear localStorage and update state
-          console.error("Token verification failed:", error);
-          localStorage.removeItem('superAuthToken');
-          setIsAuthenticated(false);
-        });
+      setCurrentUser(userData)
+      setIsAuthenticated(true);
+      navigate(location.pathname);
     }
   }, []);
 
 
   const login = async (credentials) => {
-    
+
     try {
-      const {data} = await Axios.post('login', credentials); // Use the Axios instance
+      const res = await Axios.post('login', credentials); // Use the Axios instance
+     
       
-      if (data.meta.status && data.token) {
-        let userData = {token:data.token, ...data.data}
+      if (res.meta.status && res.token) {
+        let userData = { token: res.token, ...res.data }
         setIsAuthenticated(true);
         setCurrentUser(userData)
         localStorage.setItem('superAuthToken', JSON.stringify(userData));
         navigate("/");
       }
     } catch (error) {
-      console.error("Login failed: ", error);
       setIsAuthenticated(false);
+      Notifier(error?.meta?.msg, 'Error')
     }
-};
+  };
 
-const logout = () => {
-  localStorage.removeItem('superAuthToken');
-  setIsAuthenticated(false);
-};
+  const logout = () => {
+    localStorage.removeItem('superAuthToken');
+    setIsAuthenticated(false);
+  };
 
-return (
-  <AuthContext.Provider value={{ currentUser, isAuthenticated, login, logout }}>
-    {children}
-  </AuthContext.Provider>
-);
+  return (
+    <AuthContext.Provider value={{ currentUser, isAuthenticated, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => {

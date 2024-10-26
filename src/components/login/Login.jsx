@@ -1,22 +1,16 @@
 import { useState } from 'react'
 import "./Login.css";
 import { useAuth } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import Notifier from '../Notifier';
 
 const Login = () => {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState(null);
     const auth = useAuth();
-    const navigate = useNavigate();
 
     const handleLogin = (event) => {
         event.preventDefault();
-        const success = auth.login({ userName, password });
-        if (!success) {
-            setError("Invalid credentials");
-        }
-        navigate("/"); // Navigate to the home page
+        auth.login({ userName, password });
     };
 
 
@@ -79,7 +73,6 @@ const Login = () => {
                                 </tr>
                             </tbody>
                         </table>
-                        {error && <p style={{ color: "red" }}>{error}</p>}
                     </form>
                 </div>
             </div>
