@@ -11,7 +11,9 @@ const Layout = () => {
       <div className="main">
         <Header />
         <main className="content">
-          <Outlet /> {/* This renders the routed pages */}
+          <div className="container-fluid p-0">
+            <Outlet /> {/* This renders the routed pages */}
+          </div>
         </main>
       </div>
     </div>

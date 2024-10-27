@@ -3,8 +3,6 @@ function Dashboard() {
 
 
   return (
-    <div className="container-fluid p-0">
-
       <div className="row">
         <div className="col-12 col-lg-8 col-xxl-9 d-flex">
           <div className="card flex-fill">
@@ -97,7 +95,6 @@ function Dashboard() {
           </div>
         </div>
       </div>
-    </div>
   );
 }
 

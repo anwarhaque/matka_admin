@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import userPic from '../assets/img/user-pic.png';
 
 const Header = () => {
   const handleToggle = () => {
@@ -16,17 +17,17 @@ const Header = () => {
 
   return (
     <nav className="navbar navbar-expand navbar-light navbar-bg">
-      <a className="sidebar-toggle js-sidebar-toggle" onClick={handleToggle}>
+      <Link className="sidebar-toggle js-sidebar-toggle"  onClick={handleToggle}>
         <i className="hamburger align-self-center"></i>
-      </a>
+      </Link>
 
       <div className="navbar-collapse collapse">
         <ul className="navbar-nav navbar-align">
          
           <li className="nav-item dropdown">
             <Link className="nav-link dropdown-toggle d-none d-sm-inline-block" 
-              data-bs-toggle="dropdown">
-              <img src="img/avatars/user-pic.png" className="avatar img-fluid rounded-circle me-1"
+              data-bs-toggle="dropdown" to="/profile">
+              <img src={userPic} className="avatar img-fluid rounded-circle me-1"
                 alt={auth?.currentUser?.name} /> <span className="text-dark">{auth?.currentUser?.name}</span>
             </Link>
             <div className="dropdown-menu dropdown-menu-end">

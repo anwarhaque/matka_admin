@@ -6,8 +6,6 @@ import Dashboard from "./components/Dashboard";
 import ChangePassword from "./components/ChangePassword";
 import Profile from "./components/Profile";
 import DrowMaster from "./components/master/DrowMaster";
-import ClientMaster from "./components/master/clientMaster";
-import AgentMaster from "./components/master/AgentMaster";
 import ClientReport from './components/reports/ClientReport';
 import AgentReport from './components/reports/AgentReport';
 import MyReport from './components/reports/MyReport';
@@ -18,6 +16,12 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for Toastify
+import AgnetList from './components/master/agent/AgnetList';
+import AddAgent from './components/master/agent/AddAgent';
+import EditAgent from './components/master/agent/EditAgent';
+import ClientList from './components/master/client/ClientList';
+import AddClient from './components/master/client/addClient';
+import EditClient from './components/master/client/EditClient';
 
 function App() {
 
@@ -29,8 +33,12 @@ function App() {
           <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             <Route index element={<Dashboard />} />
             <Route path="drow-master" element={<DrowMaster />} />
-            <Route path="client-master" element={<ClientMaster />} />
-            <Route path="agent-master" element={<AgentMaster />} />
+            <Route path="client-master" element={<ClientList />} />
+            <Route path="client-master/add" element={<AddClient />} />
+            <Route path="client-master/edit/:userId" element={<EditClient />} />
+            <Route path="agent-master" element={<AgnetList />} />
+            <Route path="agent-master/add" element={<AddAgent />} />
+            <Route path="agent-master/edit/:userId" element={<EditAgent />} />
             <Route path="client-report" element={<ClientReport />} />
             <Route path="agent-report" element={<AgentReport />} />
             <Route path="my-report" element={<MyReport />} />

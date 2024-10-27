@@ -1,3 +1,15 @@
 .logo img {
     width: 100%;
 }
+
+.float-right{
+    display: block;
+    float: right;
+}
+
+/* Chrome, Safari, Edge, and Opera */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

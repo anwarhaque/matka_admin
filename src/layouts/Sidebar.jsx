@@ -9,9 +9,9 @@ const Sidebar = () => {
   return (
     <nav id="sidebar" className="sidebar js-sidebar">
       <div className="sidebar-content js-simplebar">
-        <a className="sidebar-brand" to="/">
+        <Link className="sidebar-brand" to="/">
           <span className="align-middle"><img src="/img/logo.png" alt="Logo" style={{width: "100%"}} /></span>
-        </a>
+        </Link>
 
         <ul className="sidebar-nav">
           <li className={`sidebar-item ${isActive("/") ? "active" : ""}`} >
