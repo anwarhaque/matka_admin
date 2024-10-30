@@ -148,14 +148,9 @@ const ClientLimit = () => {
                 </div>
                 {
                   Object.keys(selectedAgent).length > 0 && (
-                    <>
-                      <div className="form-group mb-2">
-                        <label htmlFor="currentLimit">Agent: <b>{selectedAgent.userName} ({selectedAgent.name})</b></label>
-                      </div>
-                      <div className="form-group mb-2">
-                        <label htmlFor="currentLimit">Agnet Current Limit: <b>{selectedAgent.limit}</b></label>
-                      </div>
-                    </>
+                    <div className="form-group mb-2">
+                      <label htmlFor="currentLimit">Agent Current Limit: <b>{selectedAgent.limit}</b></label>
+                    </div>
                   )
                 }
                 <div className="form-group mb-2">
@@ -203,7 +198,7 @@ const ClientLimit = () => {
               <div className="card flex-fill">
                 <div className="card-header">
                   <h5 className="card-title mb-0">Limit History</h5>
-                  <h5 className='float-right'>Current Limit {selectedClient.limit}</h5>
+                  <h5 className='float-right'>Current Limit: {selectedClient.limit}</h5>
                 </div>
                 <table className="table table-hover my-0">
                   <thead>
