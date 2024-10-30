@@ -11,23 +11,32 @@ const ClientLimit = () => {
   const [selectedClient, setSelectedClient] = useState({});
   const [selectedAgent, setSelectedAgent] = useState({});
   const [addLimit, setAddLimit] = useState('');
-  const { currentUser } = useAuth()
+
+  const getUser = async (userId) => {
+    try {
+
+      const { data } = await Axios.get(`/admin/getUser/${userId}`);
+      setSelectedClient(data)
+    } catch (error) {
+      Notifier(error?.meta?.msg, 'Error')
+    }
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // console.log(currentUser);
+
+    if (addLimit == 0) return 0
 
     const createData = {
-      senderId: selectedAgent._id,
-      receiverId: selectedClient._id,
-      amount: addLimit,
-      oldLimit: selectedClient.limit,
-      newLimit: selectedClient.limit + addLimit
+      clientId: selectedClient._id,
+      agentId: selectedAgent._id,
+      amount: addLimit
     }
 
     try {
-      const res = await Axios.post('/limit/addLimit', createData); // Use the Axios instance
+      await Axios.post('/limit/updateClientLimit', createData); // Use the Axios instance
       getLimitHistory(selectedClient._id)
+      getUser(selectedClient._id)
     } catch (err) {
 
       Notifier(err.meta.msg, 'Error')
@@ -35,9 +44,15 @@ const ClientLimit = () => {
 
   }
 
-  const getLimitHistory = async (userId) => {
+  const getLimitHistory = async (userId, page = 1, limit = 10) => {
     try {
-      const { data } = await Axios.get(`/limit/listLimit/${userId}`);
+      const { data, totalCount, totalPages, currentPage } = await Axios.get(`/limit/limitHistory`, {
+        params: {
+          clientId: userId,
+          page,
+          limit
+        }
+      });
       console.log(data);
       setListLimit(data)
     } catch (err) {
@@ -47,16 +62,6 @@ const ClientLimit = () => {
       setLoading(false)
     }
   };
-
-  const getUser = async (userId) => {
-    try {
-
-      const { data } = await Axios.get(`/admin/getUser/${userId}`);
-      setSelectedAgent(data)
-    } catch (error) {
-      Notifier(error?.meta?.msg, 'Error')
-    }
-  }
 
 
   const getAgentList = async () => {
@@ -104,7 +109,6 @@ const ClientLimit = () => {
     if (event.target.value) {
       const _client = clientList.find((item) => item._id === event.target.value);
       getLimitHistory(_client._id)
-      getUser(_client.agentId)
       setSelectedClient(_client)
     } else {
       setSelectedClient({})
@@ -218,20 +222,14 @@ const ClientLimit = () => {
                         listLimit.map((item, index) => (
                           <tr key={item._id}>
                             <td>{index + 1}</td>
-                            <td>{item.amount < 0 ? `${item.sender.userName} ${item.sender.name}` : `${item.receiver.userName} ${item.receiver.name}`}</td>
-
+                            <td>{`${item.client.userName} ${item.client.name}`}</td>
                             <td className="d-none d-xl-table-cell">{item.oldLimit}</td>
                             <td className="d-none d-md-table-cell">
                               <span style={{ color: item.amount > 0 ? "green" : "red" }}>{item.amount}</span>
                             </td>
                             <td className="d-none d-md-table-cell">{item.newLimit}</td>
                             <td className="d-none d-md-table-cell">{formatDate(item.date)}</td>
-                            <td className="d-none d-md-table-cell">{item.amount > 0 ? `${item.sender.userName} ${item.sender.name}` : `${item.receiver.userName} ${item.receiver.name}`}</td>
-                            <td>
-                              {
-                                item.status == 'ACTIVE' ? (<span className="badge bg-success">{item.status}</span>) : (<span className="badge bg-danger">{item.status}</span>)
-                              }
-                            </td>
+                            <td className="d-none d-md-table-cell">{`${item.user.userName} ${item.user.name}`}</td>
                           </tr>
                         ))
                       )

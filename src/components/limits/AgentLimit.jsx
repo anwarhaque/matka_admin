@@ -8,29 +8,36 @@ const AgentLimit = () => {
   const [loading, setLoading] = useState(true);
   const [list, setlist] = useState([]);
   const [listLimit, setListLimit] = useState([]);
-  const [agent, setAgent] = useState({});
+  const [selectedAgent, setSelectedAgent] = useState({});
   const [addLimit, setAddLimit] = useState('');
   const { currentUser } = useAuth()
 
+
+  const getUser = async (userId) => {
+    try {
+
+      const { data } = await Axios.get(`/admin/getUser/${userId}`);
+      setSelectedAgent(data)
+    } catch (error) {
+      Notifier(error?.meta?.msg, 'Error')
+    }
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(currentUser);
+
+    if (addLimit == 0) return 0
 
     const createData = {
-      senderId: currentUser._id,
-      receiverId: agent._id,
-      amount: addLimit,
-      oldLimit: agent.limit,
-      newLimit: agent.limit + addLimit
+      adminId: currentUser._id,
+      agentId: selectedAgent._id,
+      amount: addLimit
     }
 
     try {
-      const res = await Axios.post('/limit/addLimit', createData); // Use the Axios instance
-
-      // const res = await Axios.post(`/limit/addLimit`, createData);
-      // console.log(data);
-      // Notifier(re.meta.msg, 'Success')
-      getLimitHistory(agent._id)
+      await Axios.post('/limit/updateAgentLimit', createData); // Use the Axios instance
+      getLimitHistory(selectedAgent._id)
+      getUser(selectedAgent._id)
     } catch (err) {
 
       Notifier(err.meta.msg, 'Error')
@@ -38,9 +45,15 @@ const AgentLimit = () => {
 
   }
 
-  const getLimitHistory = async (userId) => {
+  const getLimitHistory = async (userId, page = 1, limit = 10) => {
     try {
-      const { data } = await Axios.get(`/limit/listLimit/${userId}`);
+      const { data, totalCount, totalPages, currentPage } = await Axios.get(`/limit/limitHistory`, {
+        params: {
+          agentId: userId,
+          page,
+          limit
+        }
+      });
       console.log(data);
       setListLimit(data)
     } catch (err) {
@@ -54,14 +67,13 @@ const AgentLimit = () => {
   const handelOnchange = (event) => {
     event.preventDefault();
     if (event.target.value) {
-      const correntAgent = list.find((item) => item._id === event.target.value);
-      getLimitHistory(correntAgent._id)
-      setAgent(correntAgent)
+      const _agent = list.find((item) => item._id === event.target.value);
+      getLimitHistory(_agent._id)
+      setSelectedAgent(_agent)
     } else {
-      setAgent({})
+      setSelectedAgent({})
     }
   }
-
 
   const getAgentList = async () => {
     try {
@@ -110,11 +122,11 @@ const AgentLimit = () => {
                   </select>
                 </div>
                 {
-                  Object.keys(agent).length > 0 && (
+                  Object.keys(selectedAgent).length > 0 && (
                     <div className="form-group mb-2">
                       <label htmlFor="currentLimit">Current Limit</label>
                       <input type="number" id="currentLimit" className="form-control" placeholder=""
-                        value={agent.limit}
+                        value={selectedAgent.limit}
                         disabled
                         required />
                     </div>
@@ -136,13 +148,13 @@ const AgentLimit = () => {
         </div>
       </div>
       {
-        Object.keys(agent).length > 0 && (
+        Object.keys(selectedAgent).length > 0 && (
           <div className="row">
             <div className="col-12 col-lg-12 col-xxl-12 d-flex">
               <div className="card flex-fill">
                 <div className="card-header">
                   <h5 className="card-title mb-0">Limit History</h5>
-                  <h5 className='float-right'>Current Limit {agent.limit}</h5>
+                  <h5 className='float-right'>Current Limit {selectedAgent.limit}</h5>
                 </div>
                 <table className="table table-hover my-0">
                   <thead>
@@ -162,20 +174,14 @@ const AgentLimit = () => {
                         listLimit.map((item, index) => (
                           <tr key={item._id}>
                             <td>{index + 1}</td>
-                            <td>{item.amount < 0 ? `${item.sender.userName} ${item.sender.name}` : `${item.receiver.userName} ${item.receiver.name}`}</td>
-
+                            <td>{`${item.agent.userName} ${item.agent.name}`}</td>
                             <td className="d-none d-xl-table-cell">{item.oldLimit}</td>
                             <td className="d-none d-md-table-cell">
                               <span style={{ color: item.amount > 0 ? "green" : "red" }}>{item.amount}</span>
                             </td>
                             <td className="d-none d-md-table-cell">{item.newLimit}</td>
                             <td className="d-none d-md-table-cell">{formatDate(item.date)}</td>
-                            <td className="d-none d-md-table-cell">{item.amount > 0 ? `${item.sender.userName} ${item.sender.name}` : `${item.receiver.userName} ${item.receiver.name}`}</td>
-                            <td>
-                              {
-                                item.status == 'ACTIVE' ? (<span className="badge bg-success">{item.status}</span>) : (<span className="badge bg-danger">{item.status}</span>)
-                              }
-                            </td>
+                            <td className="d-none d-md-table-cell">{`${item.user.userName} ${item.user.name}`}</td>
                           </tr>
                         ))
                       )
