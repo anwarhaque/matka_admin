@@ -13,3 +13,20 @@ input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+
+.pagination {
+  display: flex;
+  gap: 5px;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 5px 10px;
+}
+
+.pagination .active {
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+}

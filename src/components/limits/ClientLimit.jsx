@@ -11,6 +11,9 @@ const ClientLimit = () => {
   const [selectedClient, setSelectedClient] = useState({});
   const [selectedAgent, setSelectedAgent] = useState({});
   const [addLimit, setAddLimit] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 2;
 
   const getUser = async (userId) => {
     try {
@@ -35,7 +38,7 @@ const ClientLimit = () => {
 
     try {
       await Axios.post('/limit/updateClientLimit', createData); // Use the Axios instance
-      getLimitHistory(selectedClient._id)
+      // getLimitHistory(selectedClient._id)
       getUser(selectedClient._id)
     } catch (err) {
 
@@ -44,17 +47,19 @@ const ClientLimit = () => {
 
   }
 
-  const getLimitHistory = async (userId, page = 1, limit = 10) => {
+  const getLimitHistory = async () => {
     try {
-      const { data, totalCount, totalPages, currentPage } = await Axios.get(`/limit/limitHistory`, {
-        params: {
-          clientId: userId,
-          page,
-          limit
-        }
+      setLoading(true)
+      const queryParam = {
+        clientId: selectedClient._id,
+        page: currentPage,
+        limit
+      }
+      const { data, totalPages } = await Axios.get(`/limit/limitHistory`, {
+        params: queryParam
       });
-      console.log(data);
       setListLimit(data)
+      setTotalPages(totalPages)
     } catch (err) {
       Notifier(err.meta.msg, 'Error')
     }
@@ -108,7 +113,7 @@ const ClientLimit = () => {
     event.preventDefault();
     if (event.target.value) {
       const _client = clientList.find((item) => item._id === event.target.value);
-      getLimitHistory(_client._id)
+      // getLimitHistory(_client._id)
       setSelectedClient(_client)
     } else {
       setSelectedClient({})
@@ -120,6 +125,18 @@ const ClientLimit = () => {
     return date.toLocaleDateString('en-GB'); // en-GB formats the date as "dd/mm/yyyy"
   };
 
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedClient._id) {
+      getLimitHistory();
+    }
+  }, [selectedClient, currentPage])
 
   useEffect(() => {
     getAgentList();
@@ -237,6 +254,32 @@ const ClientLimit = () => {
 
                   </tbody>
                 </table>
+                {/* Pagination Controls */}
+                <div className="pagination mb-4 mx-2">
+                  <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                  >
+                    Previous
+                  </button>
+
+                  {Array.from({ length: totalPages }, (_, index) => (
+                    <button
+                      key={index + 1}
+                      onClick={() => handlePageChange(index + 1)}
+                      className={currentPage === index + 1 ? 'active' : ''}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
             </div>
 

@@ -11,7 +11,9 @@ const AgentLimit = () => {
   const [selectedAgent, setSelectedAgent] = useState({});
   const [addLimit, setAddLimit] = useState('');
   const { currentUser } = useAuth()
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 2;
 
   const getUser = async (userId) => {
     try {
@@ -36,7 +38,7 @@ const AgentLimit = () => {
 
     try {
       await Axios.post('/limit/updateAgentLimit', createData); // Use the Axios instance
-      getLimitHistory(selectedAgent._id)
+      // getLimitHistory(selectedAgent._id)
       getUser(selectedAgent._id)
     } catch (err) {
 
@@ -45,17 +47,21 @@ const AgentLimit = () => {
 
   }
 
-  const getLimitHistory = async (userId, page = 1, limit = 10) => {
+  const getLimitHistory = async () => {
     try {
-      const { data, totalCount, totalPages, currentPage } = await Axios.get(`/limit/limitHistory`, {
-        params: {
-          agentId: userId,
-          page,
-          limit
-        }
+
+      setLoading(true)
+      const queryParam = {
+        agentId: selectedAgent._id,
+        page: currentPage,
+        limit
+      }
+      const { data, totalPages } = await Axios.get(`/limit/limitHistory`, {
+        params: queryParam
       });
-      console.log(data);
+     
       setListLimit(data)
+      setTotalPages(totalPages)
     } catch (err) {
       Notifier(err.meta.msg, 'Error')
     }
@@ -68,7 +74,6 @@ const AgentLimit = () => {
     event.preventDefault();
     if (event.target.value) {
       const _agent = list.find((item) => item._id === event.target.value);
-      getLimitHistory(_agent._id)
       setSelectedAgent(_agent)
     } else {
       setSelectedAgent({})
@@ -93,6 +98,17 @@ const AgentLimit = () => {
     return date.toLocaleDateString('en-GB'); // en-GB formats the date as "dd/mm/yyyy"
   };
 
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedAgent._id) {
+      getLimitHistory();
+    }
+  }, [selectedAgent, currentPage])
 
   useEffect(() => {
     getAgentList();
@@ -147,6 +163,7 @@ const AgentLimit = () => {
           </div>
         </div>
       </div>
+
       {
         Object.keys(selectedAgent).length > 0 && (
           <div className="row">
@@ -173,26 +190,51 @@ const AgentLimit = () => {
                       loading ? (<tr><td calpan="4">Loading...</td></tr>) : (
                         listLimit.map((item, index) => (
                           <tr key={item._id}>
-                            <td>{index + 1}</td>
-                            <td>{`${item.agent.userName} ${item.agent.name}`}</td>
+                            <td>{(currentPage - 1) * limit + index + 1}</td>
+                            <td>{`${item.agent?.userName} ${item.agent?.name}`}</td>
                             <td className="d-none d-xl-table-cell">{item.oldLimit}</td>
                             <td className="d-none d-md-table-cell">
                               <span style={{ color: item.amount > 0 ? "green" : "red" }}>{item.amount}</span>
                             </td>
                             <td className="d-none d-md-table-cell">{item.newLimit}</td>
                             <td className="d-none d-md-table-cell">{formatDate(item.date)}</td>
-                            <td className="d-none d-md-table-cell">{`${item.user.userName} ${item.user.name}`}</td>
+                            <td className="d-none d-md-table-cell">{`${item.user?.userName} ${item.user?.name}`}</td>
                           </tr>
                         ))
                       )
                     }
-
                   </tbody>
                 </table>
+
+                {/* Pagination Controls */}
+                <div className="pagination mb-4 mx-2">
+                  <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                  >
+                    Previous
+                  </button>
+
+                  {Array.from({ length: totalPages }, (_, index) => (
+                    <button
+                      key={index + 1}
+                      onClick={() => handlePageChange(index + 1)}
+                      className={currentPage === index + 1 ? 'active' : ''}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
             </div>
-
-          </div>
+          </div >
         )
       }
     </>
