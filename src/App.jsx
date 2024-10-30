@@ -22,7 +22,7 @@ import EditAgent from './components/master/agent/EditAgent';
 import ClientList from './components/master/client/ClientList';
 import AddClient from './components/master/client/addClient';
 import EditClient from './components/master/client/EditClient';
-
+import './assets/css/app.css'
 function App() {
 
   return (

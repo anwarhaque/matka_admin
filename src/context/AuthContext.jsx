@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
 
     try {
-      const res = await Axios.post('login', credentials); // Use the Axios instance
+      const res = await Axios.post('admin/login', credentials); // Use the Axios instance
      
       
       if (res.meta.status && res.token) {

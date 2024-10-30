@@ -9,9 +9,10 @@ const EditClient = () => {
     const [agentId, setAgentId] = useState("");
     const [mobileNumber, setMobileNumber] = useState("");
     const [password, setPassword] = useState("");
-    const [limit, setLimit] = useState(0);
-    const [commission, setCommission] = useState(0);
-    const [agentShare, setAgentShare] = useState(0);
+
+    const [rate, setRate] = useState(0);
+    const [agentCommission, setAgentCommission] = useState(0);
+    const [clientCommission, setClientCommission] = useState(0);
     const [clientShare, setClientShare] = useState(0);
     const { userId } = useParams();
     const handleUpdate = async (event) => {
@@ -19,7 +20,7 @@ const EditClient = () => {
 
         try {
 
-            const res = await Axios.put(`updateClient/${userId}`, { agentId, name, mobileNumber, password, limit, agentShare, clientShare, commission }); // Use the Axios instance
+            const res = await Axios.put(`admin/updateClient/${userId}`, { agentId, name, mobileNumber, password, agentCommission, clientCommission, rate, clientShare }); // Use the Axios instance
             console.log(res);
 
             Notifier(res.meta.msg, 'Success')
@@ -32,14 +33,15 @@ const EditClient = () => {
     const getUser = async () => {
         try {
 
-            const { data } = await Axios.get(`getUser/${userId}`);
+            const { data } = await Axios.get(`admin/getUser/${userId}`);
             setAgentId(data.agentId)
             setName(data.name)
             setMobileNumber(data.mobileNumber)
             setPassword(data.plane_password)
-            setLimit(data.limit)
-            setCommission(data.commission)
-            setAgentShare(data.agentShare)
+            // setLimit(data.limit)
+            setRate(data.rate)
+            setAgentCommission(data.agentCommission)
+            setClientCommission(data.clientCommission)
             setClientShare(data.clientShare)
         } catch (error) {
             Notifier(error?.meta?.msg, 'Error')
@@ -48,7 +50,7 @@ const EditClient = () => {
 
     const getAgentList = async () => {
         try {
-            const { data } = await Axios.get('/listUser', {
+            const { data } = await Axios.get('/admin/listUser', {
                 params: {
                     userType: "AGENT"
                 }
@@ -57,6 +59,14 @@ const EditClient = () => {
         } catch (err) {
             Notifier(err.meta.msg, 'Error')
         }
+    };
+
+
+    const handleRateChange = (e) => {
+        const newRate = Number(e.target.value);
+        setRate(newRate);
+        setAgentCommission(newRate ? newRate : 0);
+        setClientCommission(0)
     };
 
     useEffect(() => {
@@ -109,33 +119,40 @@ const EditClient = () => {
                                     onChange={(e) => setPassword(e.target.value)}
                                     required />
                             </div>
+
                             <div className="form-group mb-2">
-                                <label htmlFor="limit">Limit</label>
-                                <input type="number" id="limit" className="form-control" placeholder=""
-                                    value={limit}
-                                    onChange={(e) => setLimit(e.target.value)}
-                                    required />
+                                <label htmlFor="password">Rate</label>
+                                <select className="form-select mb-3" value={rate} onChange={handleRateChange} required>
+                                    <option value="0" key={'100(0% Commission)'} >100(0% Commission)</option>
+                                    <option value="10" key={'90(10% Commission)'} >90(10% Commission)</option>
+                                </select>
                             </div>
                             <div className="form-group mb-2">
-                                <label htmlFor="agent_commission">Agent Share</label>
+                                <label htmlFor="agent_commission">Agent Commission</label>
                                 <input type="number" id="agent_commission" className="form-control" placeholder=""
-                                    value={agentShare}
-                                    onChange={(e) => setAgentShare(e.target.value)}
+                                    value={agentCommission}
+                                    onChange={(e) => { setAgentCommission(Number(e.target.value)); setClientCommission(rate - Number(e.target.value)) }}
+                                    disabled={!rate}
+                                    min={0}
+                                    max={10}
                                     required />
                             </div>
 
                             <div className="form-group mb-2">
-                                <label htmlFor="client_commission">Client Share</label>
+                                <label htmlFor="client_commission">Client Commission</label>
                                 <input type="number" id="client_commission" className="form-control" placeholder=""
-                                    value={clientShare}
-                                    onChange={(e) => setClientShare(e.target.value)}
+                                    value={clientCommission}
+                                    disabled
+                                    min={0}
+                                    max={10}
                                     required />
                             </div>
+
                             <div className="form-group mb-2">
-                                <label htmlFor="commission">Commission</label>
+                                <label htmlFor="commission">Share</label>
                                 <input type="number" id="commission" className="form-control" placeholder=""
-                                    value={commission}
-                                    onChange={(e) => setCommission(e.target.value)}
+                                    value={clientShare}
+                                    onChange={(e) => setClientShare(e.target.value)}
                                     required />
                             </div>
                             <div className="row mt-4"></div>

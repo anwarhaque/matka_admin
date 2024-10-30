@@ -10,7 +10,7 @@ const AgnetList = () => {
 
   const getAgentList = async () => {
     try {
-      const { data } = await Axios.get('/listUser', {
+      const { data } = await Axios.get('/admin/listUser', {
         params: {
           userType: "AGENT"
         }
@@ -33,10 +33,8 @@ const AgnetList = () => {
   };
 
   const handleCheckboxChange = async (item) => {
-    console.log(item);
-    
     try {
-      const res = await Axios.put(`/changeStatus/${item._id}`, {
+      const res = await Axios.put(`/admin/changeStatus/${item._id}`, {
         status: item.status == 'ACTIVE' ? 'DEACTIVE' : 'ACTIVE'
       });
       Notifier(res.meta.msg, 'Success')
@@ -44,8 +42,15 @@ const AgnetList = () => {
     } catch (err) {
       Notifier(err.meta.msg, 'Error')
     }
-
-    
+  };
+  const handleDelete = async (item) => {
+    try {
+      const res = await Axios.delete(`/admin/deleteUser/${item._id}`);
+      Notifier(res.meta.msg, 'Success')
+      getAgentList()
+    } catch (err) {
+      Notifier(err.meta.msg, 'Error')
+    }
   };
 
 
@@ -71,7 +76,8 @@ const AgnetList = () => {
                 <th className="d-none d-xl-table-cell">Mobile Number</th>
                 <th className="d-none d-xl-table-cell">Limit</th>
                 <th className="d-none d-xl-table-cell">D.O.J</th>
-                <th className="d-none d-xl-table-cell">Super Agent Comm.</th>
+                {/* <th className="d-none d-xl-table-cell">Super Agent Comm.</th> */}
+                <th className="d-none d-xl-table-cell">Agent Share</th>
                 <th>Status</th>
                 <th>Action</th>
 
@@ -88,7 +94,8 @@ const AgnetList = () => {
                       <td className="d-none d-xl-table-cell">{item.mobileNumber}</td>
                       <td className="d-none d-md-table-cell">{item.limit}</td>
                       <td className="d-none d-md-table-cell">{formatDate(item.createdAt)}</td>
-                      <td className="d-none d-md-table-cell">{item.commission}</td>
+                      {/* <td className="d-none d-md-table-cell">{item.commission}</td> */}
+                      <td className="d-none d-md-table-cell">{item.agentShare}</td>
                       <td>
                         {
                           item.status == 'ACTIVE' ? (<span className="badge bg-success">{item.status}</span>) : (<span className="badge bg-danger">{item.status}</span>)
@@ -102,6 +109,7 @@ const AgnetList = () => {
                             <input className="form-check-input" type="checkbox" id={`checkbox-${item._id}`} checked={item.status == 'ACTIVE' ? true : false} onChange={()=>handleCheckboxChange(item)} />
                             <label className="form-check-label" htmlFor={`checkbox-${item._id}`}></label>
                           </div>
+                          <Link to={`#`} onClick={()=>handleDelete(item)}><i className="fa fa-trash" style={{ color: 'red' }}></i></Link>
                         </div>
                       </td>
                     </tr>

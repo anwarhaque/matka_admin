@@ -7,15 +7,14 @@ const EditAgent = () => {
   const [name, setName] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [limit, setLimit] = useState(0);
-  const [commission, setCommission] = useState(0);
+  const [agentShare, setAgentShare] = useState(0);
   const { userId } = useParams();
   const handleUpdate = async (event) => {
     event.preventDefault();
 
     try {
 
-      const res = await Axios.put(`updateAgent/${userId}`, { name, mobileNumber, password, limit, commission }); // Use the Axios instance
+      const res = await Axios.put(`/admin/updateAgent/${userId}`, { name, mobileNumber, password, agentShare }); // Use the Axios instance
       console.log(res);
 
       Notifier(res.meta.msg, 'Success')
@@ -28,12 +27,11 @@ const EditAgent = () => {
   const getUser = async () => {
     try {
 
-      const {data} = await Axios.get(`getUser/${userId}`); 
+      const { data } = await Axios.get(`/admin/getUser/${userId}`);
       setName(data.name)
       setMobileNumber(data.mobileNumber)
       setPassword(data.plane_password)
-      setLimit(data.limit)
-      setCommission(data.commission)
+      setAgentShare(data.agentShare)
     } catch (error) {
       Notifier(error?.meta?.msg, 'Error')
     }
@@ -76,18 +74,12 @@ const EditAgent = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required />
               </div>
+              
               <div className="form-group mb-2">
-                <label htmlFor="limit">Limit</label>
-                <input type="number" id="limit" className="form-control" placeholder=""
-                  value={limit}
-                  onChange={(e) => setLimit(e.target.value)}
-                  required />
-              </div>
-              <div className="form-group mb-2">
-                <label htmlFor="commission">Commission</label>
-                <input type="number" id="commission" className="form-control" placeholder=""
-                  value={commission}
-                  onChange={(e) => setCommission(e.target.value)}
+                <label htmlFor="agentShare">Agent Share</label>
+                <input type="number" id="agentShare" className="form-control" placeholder=""
+                  value={agentShare}
+                  onChange={(e) => setAgentShare(e.target.value)}
                   required />
               </div>
               <div className="row mt-4"></div>
