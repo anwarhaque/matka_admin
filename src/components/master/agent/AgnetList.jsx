@@ -14,7 +14,7 @@ const AgnetList = () => {
           userType: "AGENT"
         }
       });
-      console.log(data);
+    
 
       setlist(data)
     } catch (err) {

@@ -10,7 +10,7 @@ function Profile() {
     const getProfileData = async () => {
       try {
         const { data } = await Axios.get('/getProfile');
-        console.log(data);
+       
         setProfile(data)
       } catch (err) {
         Notifier(err.meta.msg, 'Error')

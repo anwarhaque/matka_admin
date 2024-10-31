@@ -17,7 +17,6 @@ const Login = () => {
     return (
         <div
             className="login_page_wrapper"
-            style={{ backgroundImage: "url(/img/bg.jpg" }}
         >
             <div id="login_card">
                 <div className="md-card-content large-padding" id="login_form">

@@ -21,7 +21,7 @@ const EditClient = () => {
         try {
 
             const res = await Axios.put(`admin/updateClient/${userId}`, { agentId, name, mobileNumber, password, agentCommission, clientCommission, rate, clientShare }); // Use the Axios instance
-            console.log(res);
+           
 
             Notifier(res.meta.msg, 'Success')
         } catch (error) {

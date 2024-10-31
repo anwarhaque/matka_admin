@@ -15,7 +15,7 @@ const AddAgent = () => {
     try {
 
       const res = await Axios.post('admin/createAgent', { name, mobileNumber, password, agentShare }); // Use the Axios instance
-      console.log(res);
+     
 
       Notifier(res.meta.msg, 'Success')
     } catch (error) {
