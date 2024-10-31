@@ -5,7 +5,6 @@ import Layout from "./layouts/Layout";
 import Dashboard from "./components/Dashboard";
 import ChangePassword from "./components/ChangePassword";
 import Profile from "./components/Profile";
-import DrowMaster from "./components/master/DrowMaster";
 import ClientReport from './components/reports/ClientReport';
 import AgentReport from './components/reports/AgentReport';
 import MyReport from './components/reports/MyReport';
@@ -23,6 +22,9 @@ import ClientList from './components/master/client/ClientList';
 import AddClient from './components/master/client/addClient';
 import EditClient from './components/master/client/EditClient';
 import './assets/css/app.css'
+import DrowList from './components/master/drow/DrowList';
+import AddDrow from './components/master/drow/AddDrow';
+import EditDrow from './components/master/drow/EditDrow';
 function App() {
 
   return (
@@ -32,7 +34,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             <Route index element={<Dashboard />} />
-            <Route path="drow-master" element={<DrowMaster />} />
+            <Route path="drow-master" element={<DrowList />} />
+            <Route path="drow-master/add" element={<AddDrow />} />
+            <Route path="drow-master/edit/:drowId" element={<EditDrow />} />
             <Route path="client-master" element={<ClientList />} />
             <Route path="client-master/add" element={<AddClient />} />
             <Route path="client-master/edit/:userId" element={<EditClient />} />

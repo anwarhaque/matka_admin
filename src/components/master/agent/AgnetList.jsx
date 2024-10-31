@@ -6,7 +6,6 @@ const AgnetList = () => {
 
   const [list, setlist] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isChecked, setIsChecked] = useState(false);
 
   const getAgentList = async () => {
     try {
