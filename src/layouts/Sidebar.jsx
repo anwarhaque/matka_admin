@@ -30,6 +30,11 @@ const Sidebar = () => {
               <i className="align-middle" data-feather="user"></i> <span className="align-middle">Drow Master</span>
             </Link>
           </li>
+          <li className={`sidebar-item ${isActive("/open-status") ? "active" : ""}`}>
+            <Link className="sidebar-link" to="/open-status">
+              <i className="align-middle" data-feather="user"></i> <span className="align-middle">Open Status</span>
+            </Link>
+          </li>
           <li className={`sidebar-item ${isActive("/client-master") ? "active" : ""}`}>
             <Link className="sidebar-link" to="/client-master">
               <i className="align-middle" data-feather="user"></i> <span className="align-middle">Client Master</span>

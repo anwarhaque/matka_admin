@@ -55,7 +55,7 @@ const DrowList = () => {
 
     return (
         <div className="row">
-            <div className="col-12 col-lg-8 col-xxl-8 d-flex">
+            <div className="col-12 col-lg-8 col-xxl-8">
                 <div className="card flex-fill">
                     <div className="card-header">
                         <h5 className="card-title mb-0">Drow List</h5>

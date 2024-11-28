@@ -53,7 +53,7 @@ const RateList = () => {
                         <td>10*900</td>
                         <td>9000/-</td>
                     </tr>
-                    <tr><td colspan="5"></td></tr>
+                    <tr><td colSpan="5"></td></tr>
                     <tr>
                         <td>Single</td>
                         <td>10%</td>

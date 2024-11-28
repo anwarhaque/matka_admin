@@ -25,6 +25,7 @@ import './assets/css/app.css'
 import DrowList from './components/master/drow/DrowList';
 import AddDrow from './components/master/drow/AddDrow';
 import EditDrow from './components/master/drow/EditDrow';
+import OpenStatus from './components/open-status/OpenStatus';
 function App() {
 
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             <Route index element={<Dashboard />} />
             <Route path="drow-master" element={<DrowList />} />
+            <Route path="open-status" element={<OpenStatus />} />
             <Route path="drow-master/add" element={<AddDrow />} />
             <Route path="drow-master/edit/:drowId" element={<EditDrow />} />
             <Route path="client-master" element={<ClientList />} />
