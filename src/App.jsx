@@ -1,6 +1,6 @@
 
 import './App.css'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./layouts/Layout";
 import Dashboard from "./components/Dashboard";
 import ChangePassword from "./components/ChangePassword";
@@ -13,7 +13,7 @@ import AgentLimit from './components/limits/agentLimit';
 import Login from './components/login/Login';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for Toastify
 import AgnetList from './components/master/agent/AgnetList';
 import AddAgent from './components/master/agent/AddAgent';
@@ -26,6 +26,7 @@ import DrowList from './components/master/drow/DrowList';
 import AddDrow from './components/master/drow/AddDrow';
 import EditDrow from './components/master/drow/EditDrow';
 import OpenStatus from './components/open-status/OpenStatus';
+import NotFound from './components/not-found/NotFound';
 function App() {
 
   return (
@@ -34,7 +35,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-            <Route index element={<Dashboard />} />
+            
+            <Route path='dashboard' element={<Dashboard />} />
             <Route path="drow-master" element={<DrowList />} />
             <Route path="open-status" element={<OpenStatus />} />
             <Route path="drow-master/add" element={<AddDrow />} />
@@ -52,6 +54,8 @@ function App() {
             <Route path="agent-limit" element={<AgentLimit />} />
             <Route path="profile" element={<Profile />} />
             <Route path="change-password" element={<ChangePassword />} />
+            <Route path="/" element={<Navigate to="/dashboard" />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
         <ToastContainer /> {/* Add ToastContainer here to display toasts globally */}

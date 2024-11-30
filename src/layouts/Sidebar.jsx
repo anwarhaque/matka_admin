@@ -9,13 +9,13 @@ const Sidebar = () => {
   return (
     <nav id="sidebar" className="sidebar js-sidebar">
       <div className="sidebar-content js-simplebar">
-        <Link className="sidebar-brand" to="/">
+        <Link className="sidebar-brand" to="/dashboard">
           <span className="align-middle"><img src="/img/logo.png" alt="Logo" style={{width: "100%"}} /></span>
         </Link>
 
         <ul className="sidebar-nav">
-          <li className={`sidebar-item ${isActive("/") ? "active" : ""}`} >
-            <Link className="sidebar-link" to="/">
+          <li className={`sidebar-item ${isActive("/dashboard") ? "active" : ""}`} >
+            <Link className="sidebar-link" to="/dashboard">
               <i className="align-middle" data-feather="sliders"></i> <span
                 className="align-middle">Dashboard</span>
             </Link>

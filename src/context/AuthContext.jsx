@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true);
         setCurrentUser(userData)
         localStorage.setItem('superAuthToken', JSON.stringify(userData));
-        navigate("/");
+        navigate("/dashboard");
       }
     } catch (error) {
       setIsAuthenticated(false);
