@@ -4,18 +4,22 @@ import Axios from '../../api/Axios';
 
 const OpenStatus = () => {
 
+    const initialState = [
+        { _id: 1, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
+        { _id: 2, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
+        { _id: 3, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
+        { _id: 4, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
+        { _id: 5, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
+        { _id: 6, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
+        { _id: 7, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
+        { _id: 8, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
+        { _id: 9, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
+        { _id: 0, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
+    ];
 
-    const [singleList, setSingleList] = useState([
-        { _id: 1, totalAmount: 0 },
-        { _id: 2, totalAmount: 0 },
-        { _id: 3, totalAmount: 0 },
-        { _id: 4, totalAmount: 0 },
-        { _id: 5, totalAmount: 0 },
-        { _id: 6, totalAmount: 0 },
-        { _id: 7, totalAmount: 0 },
-        { _id: 8, totalAmount: 0 },
-        { _id: 9, totalAmount: 0 },
-        { _id: 0, totalAmount: 0 }]);
+    const [singleList, setSingleList] = useState(initialState);
+    const [openResult, setOpenResult] = useState('');
+    const [closeResult, setCloseResult] = useState('');
 
     const [currentOpenStatus, setCurrentOpenStatus] = useState([]);
     const [singleTotalAmount, setSingleTotalAmount] = useState(0);
@@ -29,8 +33,33 @@ const OpenStatus = () => {
     const [drow, setDrow] = useState('');
     const [round, setRound] = useState('');
 
+
+    const sumOfDigits = (number) => {
+        const digits = number.toString().split('');
+        const sum = digits.reduce((acc, digit) => acc + parseInt(digit), 0);
+        return sum;
+    }
+    const handelCheck = () => {
+        
+        const resultNum = sumOfDigits(round==='OPEN'?openResult:closeResult) % 10
+
+        const newSingleLost = singleList?.map(item => {
+            
+            if (item._id === resultNum) {
+                item.totalProfitLoss = - item.totalAmount
+            } else {
+                item.totalProfitLoss = item.totalAmount- item.totalCommAmount
+            }
+            return item
+        })
+
+        setSingleList(newSingleLost)
+
+    }
+
     const getOpentStatus = async () => {
         try {
+            // setSingleList(initialState)
             const { data } = await Axios.get('/open-status/list', {
                 params: {
                     selectedDate,
@@ -42,17 +71,23 @@ const OpenStatus = () => {
             const single = data?.gameTypeWiseAmount?.find(e => e._id === 'SINGLE')
             const jodi = data?.gameTypeWiseAmount?.find(e => e._id === 'JODI')
             const patti = data?.gameTypeWiseAmount?.find(e => e._id === 'PATTI')
-            setSingleTotalAmount(single?.totalAmount || 0)
-            setJodiTotalAmount(jodi?.totalAmount || 0)
-            setPattiTotalAmount(patti?.totalAmount || 0)
+            setSingleTotalAmount(single?.totalAmount - single?.totalCommAmount || 0)
+            setJodiTotalAmount(jodi?.totalAmount - jodi?.totalCommAmount || 0)
+            setPattiTotalAmount(patti?.totalAmount - patti?.totalCommAmount || 0)
 
-            const reorderedArray = singleList.map(originalItem =>
-                data?.sglNumWiseTotalAmount?.find(responseItem => responseItem._id === originalItem._id) || originalItem
+            const reorderedArray = initialState.map(_item => {
+                const isExist = data?.sglNumWiseTotalAmount?.find(_res => _res._id === _item._id)
+                if (isExist) {
+                    _item.totalAmount = isExist.totalAmount
+                    _item.totalCommAmount = isExist.totalCommAmount
+                }
+                return _item
+            }
             );
-
-            console.log(data?.currentOpenStatus);
-            setCurrentOpenStatus(data?.currentOpenStatus || [])
             
+            // console.log(data?.currentOpenStatus);
+            setCurrentOpenStatus(data?.currentOpenStatus || [])
+
             setSingleList(reorderedArray)
             // setApiData(data)
             setPattiList(data?.pattiNumWiseTotalAmount || [])
@@ -79,16 +114,18 @@ const OpenStatus = () => {
 
     const handelStatus = (event) => {
         event.preventDefault();
+        if (!drow) {
+            return Notifier('Select Drow', 'Error')
+        }
+        if (!round) {
+            return Notifier('Select Round', 'Error')
+        }
         getOpentStatus();
     }
 
     useEffect(() => {
-        // const today = new Date();
-        // const formattedDate = today.toISOString().split("T")[0];
-        // setSelectedDate(formattedDate);
-
         getDrowList();
-        getOpentStatus();
+        // getOpentStatus();
     }, []);
 
 
@@ -143,7 +180,37 @@ const OpenStatus = () => {
                                         </div>
                                     </td>
                                     <td colSpan="2">
-                                        <div className='text-center p-2'>0</div>
+
+                                        <div className='d-flex align-items-center p-2'>
+                                            {
+                                                round == 'OPEN' && (
+                                                    <>
+                                                        <label htmlFor="">Open</label>
+                                                        <input className="form-control mx-2" type="text"
+                                                            value={openResult}
+                                                            onChange={(e) => setOpenResult(e.target.value)} />
+                                                        <button className='btn btn-primary mx-2' type="button" onClick={handelCheck}>Check</button>
+
+                                                    </>
+
+                                                )
+                                            }
+                                            {
+                                                round == 'CLOSE' && (
+                                                    <>
+                                                        <label htmlFor="">Close</label>
+                                                        <input className="form-control mx-2" type="text"
+                                                            value={closeResult}
+                                                            onChange={(e) => setCloseResult(e.target.value)} />
+                                                        <button className='btn btn-primary mx-2' type="button" onClick={handelCheck}>Check</button>
+
+                                                    </>
+
+                                                )
+                                            }
+
+
+                                        </div>
                                     </td>
 
                                 </tr>
@@ -166,8 +233,10 @@ const OpenStatus = () => {
                                     singleList.map(item => (
                                         <tr key={item._id}>
                                             <td>{item._id}</td>
-                                            <td>{item.totalAmount}</td>
-                                            <td><span className='profit'>0</span></td>
+                                            <td>{item?.totalAmount-item?.totalCommAmount}</td>
+                                            <td>
+                                                <span className={item.totalProfitLoss >= 0 ? 'profit' : 'loss'}>{item.totalProfitLoss}</span>
+                                            </td>
                                         </tr>
                                     ))
                                 }
