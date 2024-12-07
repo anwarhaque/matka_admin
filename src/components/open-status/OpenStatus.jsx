@@ -5,19 +5,18 @@ import Axios from '../../api/Axios';
 const OpenStatus = () => {
 
     const initialState = [
-        { _id: 1, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
-        { _id: 2, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
-        { _id: 3, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
-        { _id: 4, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
-        { _id: 5, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
-        { _id: 6, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
-        { _id: 7, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
-        { _id: 8, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
-        { _id: 9, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
-        { _id: 0, totalAmount: 0, totalCommAmount:0, totalProfitLoss: 0 },
+        { _id: 1, totalAmount: 0, totalCommAmount: 0, totalProfitLoss: 0 },
+        { _id: 2, totalAmount: 0, totalCommAmount: 0, totalProfitLoss: 0 },
+        { _id: 3, totalAmount: 0, totalCommAmount: 0, totalProfitLoss: 0 },
+        { _id: 4, totalAmount: 0, totalCommAmount: 0, totalProfitLoss: 0 },
+        { _id: 5, totalAmount: 0, totalCommAmount: 0, totalProfitLoss: 0 },
+        { _id: 6, totalAmount: 0, totalCommAmount: 0, totalProfitLoss: 0 },
+        { _id: 7, totalAmount: 0, totalCommAmount: 0, totalProfitLoss: 0 },
+        { _id: 8, totalAmount: 0, totalCommAmount: 0, totalProfitLoss: 0 },
+        { _id: 9, totalAmount: 0, totalCommAmount: 0, totalProfitLoss: 0 },
+        { _id: 0, totalAmount: 0, totalCommAmount: 0, totalProfitLoss: 0 },
     ];
 
-    const [singleList, setSingleList] = useState(initialState);
     const [openResult, setOpenResult] = useState('');
     const [closeResult, setCloseResult] = useState('');
 
@@ -25,6 +24,7 @@ const OpenStatus = () => {
     const [singleTotalAmount, setSingleTotalAmount] = useState(0);
     const [jodiTotalAmount, setJodiTotalAmount] = useState(0);
     const [pattiTotalAmount, setPattiTotalAmount] = useState(0);
+    const [singleList, setSingleList] = useState(initialState);
     const [jodiList, setJodiList] = useState([]);
     const [pattiList, setPattiList] = useState([]);
     const [drowList, setDrowList] = useState([]);
@@ -39,21 +39,87 @@ const OpenStatus = () => {
         const sum = digits.reduce((acc, digit) => acc + parseInt(digit), 0);
         return sum;
     }
-    const handelCheck = () => {
-        
-        const resultNum = sumOfDigits(round==='OPEN'?openResult:closeResult) % 10
 
-        const newSingleLost = singleList?.map(item => {
-            
-            if (item._id === resultNum) {
-                item.totalProfitLoss = - item.totalAmount
+    function checkPatti(number) {
+        // Convert the number to a string for easy character comparison
+        const numStr = number.toString();
+
+        if (numStr.length !== 3) {
+            return null;
+        }
+
+        // Create a map to count the occurrences of each digit
+        const digitCount = {};
+
+        for (const digit of numStr) {
+            digitCount[digit] = (digitCount[digit] || 0) + 1;
+        }
+
+        const values = Object.values(digitCount);
+
+        if (values.includes(3)) {
+            return 'TRIPPLE PATTI';
+        } else if (values.includes(2)) {
+            return "DOUBLE PATTI";
+        } else {
+            return "SINGLE PATTI";
+        }
+    }
+
+    const handelCheck = () => {
+
+
+        const singleNum = sumOfDigits(round === 'OPEN' ? openResult : closeResult) % 10
+        const pattiNum = round === 'OPEN' ? openResult : closeResult
+
+        const newSingleList = singleList?.map(item => {
+
+            if (item._id === singleNum) {
+                item.totalProfitLoss = - ((item.totalAmount * 9) + item.totalCommAmount)
             } else {
-                item.totalProfitLoss = item.totalAmount- item.totalCommAmount
+                item.totalProfitLoss = item.totalAmount - item.totalCommAmount
+            }
+            return item
+        })
+        const newPattiList = pattiList?.map(item => {
+            // console.log(item._id, pattiNum);
+
+            if (item._id === parseInt(pattiNum)) {
+
+                if (checkPatti(pattiNum) === 'SINGLE PATTI') {
+                    item.totalProfitLoss = - ((item.totalAmount * 140) + item.totalCommAmount)
+                }
+                else if (checkPatti(pattiNum) === 'DOUBLE PATTI') {
+                    item.totalProfitLoss = - ((item.totalAmount * 280) + item.totalCommAmount)
+                }
+                else if (checkPatti(pattiNum) === 'TRIPPLE PATTI') {
+                    item.totalProfitLoss = - ((item.totalAmount * 840) + item.totalCommAmount)
+                }
+            } else {
+                item.totalProfitLoss = item.totalAmount - item.totalCommAmount
             }
             return item
         })
 
-        setSingleList(newSingleLost)
+        if (openResult !== '' && closeResult !== '') {
+
+            const jodiNum = `${sumOfDigits(openResult) % 10}${sumOfDigits(closeResult) % 10}`
+            // console.log(jodiNum);
+            const newJodiList = jodiList?.map(item => {
+                if (item._id === parseInt(jodiNum)) {
+                    item.totalProfitLoss = - ((item.totalAmount * 90) + item.totalCommAmount)
+
+                } else {
+                    item.totalProfitLoss = item.totalAmount - item.totalCommAmount
+                }
+                return item
+            })
+            setJodiList(newJodiList)
+        }
+
+
+        setSingleList(newSingleList)
+        setPattiList(newPattiList)
 
     }
 
@@ -84,7 +150,7 @@ const OpenStatus = () => {
                 return _item
             }
             );
-            
+
             // console.log(data?.currentOpenStatus);
             setCurrentOpenStatus(data?.currentOpenStatus || [])
 
@@ -145,7 +211,7 @@ const OpenStatus = () => {
                                     </td>
                                     <td>
                                         <div><h3><span>SINGLE + JODI = TOTAL</span></h3></div>
-                                        <div className='open-status-amount'><i className="fa fa-rupee">{singleTotalAmount + jodiTotalAmount}</i></div>
+                                        <div className='open-status-amount'><i className="fa fa-rupee">{singleTotalAmount} + {jodiTotalAmount} = {singleTotalAmount + jodiTotalAmount}</i></div>
                                     </td>
                                     <td>
                                         <div><h3><span>PATTI TOTAL</span></h3></div>
@@ -182,7 +248,17 @@ const OpenStatus = () => {
                                     <td colSpan="2">
 
                                         <div className='d-flex align-items-center p-2'>
-                                            {
+                                            <label htmlFor="">Open</label>
+                                            <input className="form-control mx-2" type="text" disabled={round == 'CLOSE'}
+                                                value={openResult}
+                                                onChange={(e) => setOpenResult(e.target.value)} />
+                                            <label htmlFor="">Close</label>
+                                            <input className="form-control mx-2" type="text" disabled={round == 'OPEN'}
+                                                value={closeResult}
+                                                onChange={(e) => setCloseResult(e.target.value)} />
+                                            <button className='btn btn-primary mx-2' type="button" onClick={handelCheck}>Check</button>
+
+                                            {/* {
                                                 round == 'OPEN' && (
                                                     <>
                                                         <label htmlFor="">Open</label>
@@ -207,7 +283,7 @@ const OpenStatus = () => {
                                                     </>
 
                                                 )
-                                            }
+                                            } */}
 
 
                                         </div>
@@ -233,7 +309,7 @@ const OpenStatus = () => {
                                     singleList.map(item => (
                                         <tr key={item._id}>
                                             <td>{item._id}</td>
-                                            <td>{item?.totalAmount-item?.totalCommAmount}</td>
+                                            <td>{item?.totalAmount - item?.totalCommAmount}</td>
                                             <td>
                                                 <span className={item.totalProfitLoss >= 0 ? 'profit' : 'loss'}>{item.totalProfitLoss}</span>
                                             </td>
@@ -263,8 +339,10 @@ const OpenStatus = () => {
                                     jodiList.map(item => (
                                         <tr key={item._id}>
                                             <td>{item._id}</td>
-                                            <td>{item.totalAmount}</td>
-                                            <td><span className='profit'>0</span></td>
+                                            <td>{item.totalAmount - item?.totalCommAmount}</td>
+                                            <td>
+                                                <span className={item.totalProfitLoss >= 0 ? 'profit' : 'loss'}>{item.totalProfitLoss}</span>
+                                            </td>
                                         </tr>
                                     ))
                                 }
@@ -290,8 +368,10 @@ const OpenStatus = () => {
                                     pattiList.map(item => (
                                         <tr key={item._id}>
                                             <td>{item._id}</td>
-                                            <td>{item.totalAmount}</td>
-                                            <td><span className='profit'>0</span></td>
+                                            <td>{item.totalAmount - item?.totalCommAmount}</td>
+                                            <td>
+                                                <span className={item.totalProfitLoss >= 0 ? 'profit' : 'loss'}>{item.totalProfitLoss}</span>
+                                            </td>
                                         </tr>
                                     ))
                                 }
