@@ -17,8 +17,8 @@ const OpenStatus = () => {
         { _id: 0, totalAmount: 0, totalCommAmount: 0, totalProfitLoss: 0 },
     ];
 
-    const [openResult, setOpenResult] = useState('');
-    const [closeResult, setCloseResult] = useState('');
+    const [openPatti, setOpenPatti] = useState('');
+    const [closePatti, setClosePatti] = useState('');
 
     const [currentOpenStatus, setCurrentOpenStatus] = useState([]);
     const [singleTotalAmount, setSingleTotalAmount] = useState(0);
@@ -28,10 +28,11 @@ const OpenStatus = () => {
     const [jodiList, setJodiList] = useState([]);
     const [pattiList, setPattiList] = useState([]);
     const [drowList, setDrowList] = useState([]);
-    // const [apiData, setApiData] = useState({});
+    const [apiData, setApiData] = useState({});
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
     const [drow, setDrow] = useState('');
     const [round, setRound] = useState('');
+    const [result, setResult] = useState('');
 
 
     const sumOfDigits = (number) => {
@@ -66,11 +67,38 @@ const OpenStatus = () => {
         }
     }
 
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            if (`${openPatti}`.length === 3 || `${closePatti}`.length === 3) {
+                handelCheck();
+            }
+        }, 300);
+
+        // Cleanup the timeout on dependency change
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [openPatti, closePatti]); // Dependencies to watch
+
     const handelCheck = () => {
+        // console.log('lll');
 
+        if (round === 'OPEN' && openPatti === '') {
+            return 
+        }
+        if (round === 'CLOSE' && closePatti === '') {
+            return 
+        }
+        // if (round === 'CLOSE' && openPatti === '') {
+        //     return Notifier('Enter Open Patti', 'Error')
+        // }
+        // if (round === 'CLOSE' && closePatti === '') {
+        //     return Notifier('Enter Close Patti', 'Error')
+        // }
 
-        const singleNum = sumOfDigits(round === 'OPEN' ? openResult : closeResult) % 10
-        const pattiNum = round === 'OPEN' ? openResult : closeResult
+        const singleNum = sumOfDigits(round === 'OPEN' ? openPatti : closePatti) % 10
+        const pattiNum = round === 'OPEN' ? openPatti : closePatti
 
         const newSingleList = singleList?.map(item => {
 
@@ -81,10 +109,11 @@ const OpenStatus = () => {
             }
             return item
         })
+        
         const newPattiList = pattiList?.map(item => {
             // console.log(item._id, pattiNum);
 
-            if (item._id === parseInt(pattiNum)) {
+            if (item._id === pattiNum) {
 
                 if (checkPatti(pattiNum) === 'SINGLE PATTI') {
                     item.totalProfitLoss = - ((item.totalAmount * 140) + item.totalCommAmount)
@@ -101,21 +130,25 @@ const OpenStatus = () => {
             return item
         })
 
-        if (openResult !== '' && closeResult !== '') {
-
-            const jodiNum = `${sumOfDigits(openResult) % 10}${sumOfDigits(closeResult) % 10}`
-            // console.log(jodiNum);
-            const newJodiList = jodiList?.map(item => {
-                if (item._id === parseInt(jodiNum)) {
-                    item.totalProfitLoss = - ((item.totalAmount * 90) + item.totalCommAmount)
-
-                } else {
-                    item.totalProfitLoss = item.totalAmount - item.totalCommAmount
-                }
-                return item
-            })
-            setJodiList(newJodiList)
+        if (openPatti !== '' && closePatti !== '') {
+            console.log(closePatti);
+            
+        const jodiNum = `${sumOfDigits(openPatti) % 10}${sumOfDigits(closePatti) % 10}`
+        console.log(jodiNum);
+        // console.log(jodiNum);
+        const newJodiList = jodiList?.map(item => {
+            if (item._id === jodiNum) {
+                item.totalProfitLoss = - ((item.totalAmount * 90) + item.totalCommAmount)
+            } else {
+                item.totalProfitLoss = item.totalAmount - item.totalCommAmount
+            }
+            return item
+        })
+        setJodiList(newJodiList)
+        }else{
+            setJodiList(apiData?.jodiNumWiseTotalAmount || [])
         }
+        // setJodiList(newJodiList)
 
 
         setSingleList(newSingleList)
@@ -123,17 +156,51 @@ const OpenStatus = () => {
 
     }
 
+    const handelSubmit = async () => {
+        if (round === 'OPEN' && openPatti === '') {
+            return Notifier('Enter Open Patti', 'Error')
+        }
+        if (round === 'CLOSE' && openPatti === '') {
+            return Notifier('Enter Open Patti', 'Error')
+        }
+        if (round === 'CLOSE' && closePatti === '') {
+            return Notifier('Enter Close Patti', 'Error')
+        }
+        const updateData = {
+            selectedDate,
+            drowId: drow,
+            roundType: round,
+            openPatti,
+            closePatti
+        }
+
+        try {
+            const { data, meta } = await Axios.post('/open-status/result', updateData);
+
+            // console.log(data);
+
+            Notifier(meta?.msg, 'Success')
+
+        } catch (err) {
+            Notifier(err?.meta?.msg, 'Error')
+        }
+
+
+    }
     const getOpentStatus = async () => {
         try {
-            // setSingleList(initialState)
-            const { data } = await Axios.get('/open-status/list', {
+
+            round==='OPEN'?setOpenPatti(''):setClosePatti('')
+
+            const { data, result } = await Axios.get('/open-status/list', {
                 params: {
                     selectedDate,
                     drowId: drow,
                     roundType: round
                 }
             });
-            // console.log(data);
+
+
             const single = data?.gameTypeWiseAmount?.find(e => e._id === 'SINGLE')
             const jodi = data?.gameTypeWiseAmount?.find(e => e._id === 'JODI')
             const patti = data?.gameTypeWiseAmount?.find(e => e._id === 'PATTI')
@@ -141,23 +208,36 @@ const OpenStatus = () => {
             setJodiTotalAmount(jodi?.totalAmount - jodi?.totalCommAmount || 0)
             setPattiTotalAmount(patti?.totalAmount - patti?.totalCommAmount || 0)
 
+            setApiData(data)
+
+            // console.log(data?.currentOpenStatus);
+            setCurrentOpenStatus(data?.currentOpenStatus || [])
+
             const reorderedArray = initialState.map(_item => {
-                const isExist = data?.sglNumWiseTotalAmount?.find(_res => _res._id === _item._id)
+                const isExist = data?.sglNumWiseTotalAmount?.find(_res => _res._id == _item._id)
                 if (isExist) {
                     _item.totalAmount = isExist.totalAmount
                     _item.totalCommAmount = isExist.totalCommAmount
                 }
                 return _item
-            }
-            );
-
-            // console.log(data?.currentOpenStatus);
-            setCurrentOpenStatus(data?.currentOpenStatus || [])
+            });
 
             setSingleList(reorderedArray)
-            // setApiData(data)
+
             setPattiList(data?.pattiNumWiseTotalAmount || [])
             setJodiList(data?.jodiNumWiseTotalAmount || [])
+
+            // debugger
+            setResult(result)
+            if (result) {
+                if (result.openPatti) {
+                    setOpenPatti(result.openPatti)
+                }
+                if (result.closePatti) {
+                    setClosePatti(result.closePatti)
+                }
+
+            }
 
         } catch (err) {
 
@@ -191,8 +271,14 @@ const OpenStatus = () => {
 
     useEffect(() => {
         getDrowList();
-        // getOpentStatus();
+       
     }, []);
+    useEffect(() => {
+       
+        setOpenPatti('')
+        setClosePatti('')
+       
+    }, [selectedDate, drow]);
 
 
     return (
@@ -211,7 +297,7 @@ const OpenStatus = () => {
                                     </td>
                                     <td>
                                         <div><h3><span>SINGLE + JODI = TOTAL</span></h3></div>
-                                        <div className='open-status-amount'><i className="fa fa-rupee">{singleTotalAmount} + {jodiTotalAmount} = {singleTotalAmount + jodiTotalAmount}</i></div>
+                                        <div className='open-status-amount'><i className="fa fa-rupee"></i>{singleTotalAmount} + <i className="fa fa-rupee"></i>{jodiTotalAmount} = <i className="fa fa-rupee"></i>{singleTotalAmount + jodiTotalAmount}</div>
                                     </td>
                                     <td>
                                         <div><h3><span>PATTI TOTAL</span></h3></div>
@@ -248,42 +334,16 @@ const OpenStatus = () => {
                                     <td colSpan="2">
 
                                         <div className='d-flex align-items-center p-2'>
-                                            <label htmlFor="">Open</label>
-                                            <input className="form-control mx-2" type="text" disabled={round == 'CLOSE'}
-                                                value={openResult}
-                                                onChange={(e) => setOpenResult(e.target.value)} />
-                                            <label htmlFor="">Close</label>
-                                            <input className="form-control mx-2" type="text" disabled={round == 'OPEN'}
-                                                value={closeResult}
-                                                onChange={(e) => setCloseResult(e.target.value)} />
-                                            <button className='btn btn-primary mx-2' type="button" onClick={handelCheck}>Check</button>
+                                            <label htmlFor="">Open Patti</label>
+                                            <input className="form-control mx-2 input-patti" type="text" disabled={ round === 'OPEN' ? false : true}
+                                                value={openPatti}
+                                                onChange={(e) => setOpenPatti(e.target.value)} />
+                                            <label htmlFor="">Close Patti</label>
+                                            <input className="form-control mx-2 input-patti" type="text" disabled={ round === 'CLOSE' ? false : true}
+                                                value={closePatti}
+                                                onChange={(e) => setClosePatti(e.target.value)} />
 
-                                            {/* {
-                                                round == 'OPEN' && (
-                                                    <>
-                                                        <label htmlFor="">Open</label>
-                                                        <input className="form-control mx-2" type="text"
-                                                            value={openResult}
-                                                            onChange={(e) => setOpenResult(e.target.value)} />
-                                                        <button className='btn btn-primary mx-2' type="button" onClick={handelCheck}>Check</button>
-
-                                                    </>
-
-                                                )
-                                            }
-                                            {
-                                                round == 'CLOSE' && (
-                                                    <>
-                                                        <label htmlFor="">Close</label>
-                                                        <input className="form-control mx-2" type="text"
-                                                            value={closeResult}
-                                                            onChange={(e) => setCloseResult(e.target.value)} />
-                                                        <button className='btn btn-primary mx-2' type="button" onClick={handelCheck}>Check</button>
-
-                                                    </>
-
-                                                )
-                                            } */}
+                                            <button className='btn btn-primary mx-2' type="button" disabled={result?.closePatti?true:false} onClick={handelSubmit}>Submit</button>
 
 
                                         </div>
@@ -317,11 +377,6 @@ const OpenStatus = () => {
                                     ))
                                 }
 
-                                {/* <tr>
-                                    <td>1</td>
-                                    <td>60</td>
-                                    <td><span className='loss'>80</span></td>
-                                </tr> */}
                             </tbody>
                         </table>
                     </div>
@@ -346,11 +401,7 @@ const OpenStatus = () => {
                                         </tr>
                                     ))
                                 }
-                                {/* <tr>
-                                    <td>1</td>
-                                    <td>60</td>
-                                    <td><span className='loss'>80</span></td>
-                                </tr> */}
+
                             </tbody>
                         </table>
                     </div>
@@ -375,11 +426,7 @@ const OpenStatus = () => {
                                         </tr>
                                     ))
                                 }
-                                {/* <tr>
-                                    <td>1</td>
-                                    <td>60</td>
-                                    <td><span className='loss'>80</span></td>
-                                </tr> */}
+
                             </tbody>
                         </table>
                     </div>
@@ -410,7 +457,7 @@ const OpenStatus = () => {
                                 }
 
 
-                                <tr>
+                                {/* <tr>
                                     <th colSpan="4" className='text-center p-2'>TOTAL DUE STATUS</th>
                                 </tr>
                                 <tr>
@@ -424,7 +471,7 @@ const OpenStatus = () => {
                                 <tr>
                                     <th colSpan="3" >Net Profit/Loss</th>
                                     <th>0</th>
-                                </tr>
+                                </tr> */}
                             </tbody>
                         </table>
                     </div>

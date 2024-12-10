@@ -48,3 +48,7 @@ input[type='number']::-webkit-inner-spin-button {
   text-align: right;
   font-size: 18px;
 }
+
+.input-patti{
+  width: 20% !important;
+}
