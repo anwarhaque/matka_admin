@@ -131,10 +131,10 @@ const OpenStatus = () => {
         })
 
         if (openPatti !== '' && closePatti !== '') {
-            console.log(closePatti);
+            // console.log(closePatti);
             
         const jodiNum = `${sumOfDigits(openPatti) % 10}${sumOfDigits(closePatti) % 10}`
-        console.log(jodiNum);
+        // console.log(jodiNum);
         // console.log(jodiNum);
         const newJodiList = jodiList?.map(item => {
             if (item._id === jodiNum) {
@@ -175,11 +175,13 @@ const OpenStatus = () => {
         }
 
         try {
-            const { data, meta } = await Axios.post('/open-status/result', updateData);
+            const { meta } = await Axios.post('/open-status/result', updateData);
 
-            // console.log(data);
-
-            Notifier(meta?.msg, 'Success')
+            if(meta.status){
+                Notifier(meta?.msg, 'Success')
+            }else{
+                Notifier(meta?.msg, 'Error')
+            }
 
         } catch (err) {
             Notifier(err?.meta?.msg, 'Error')
