@@ -90,7 +90,7 @@ const ClientReport = () => {
       <div className="col-12 col-lg-12">
         <div className="card">
           <div className="card-header">
-            <h5 className="h3 card-title mb-0">Report</h5>
+            <h5 className="h3 card-title mb-0">Client Report</h5>
             <div className="row mt-4">
               <form onSubmit={getReport} >
                 <div className="row">
