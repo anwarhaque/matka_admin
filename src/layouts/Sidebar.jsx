@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import logo from '../assets/img/logo.png';
 
 const Sidebar = () => {
   const location = useLocation(); // Get the current route path
@@ -10,7 +11,7 @@ const Sidebar = () => {
     <nav id="sidebar" className="sidebar js-sidebar">
       <div className="sidebar-content js-simplebar">
         <Link className="sidebar-brand" to="/dashboard">
-          <span className="align-middle"><img src="/img/logo.png" alt="Logo" style={{width: "100%"}} /></span>
+          <span className="align-middle"><img src={logo} alt="Logo" style={{ width: "100%" }} /></span>
         </Link>
 
         <ul className="sidebar-nav">
