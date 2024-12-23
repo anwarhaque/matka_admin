@@ -30,7 +30,7 @@ import NotFound from './components/not-found/NotFound';
 function App() {
 
   return (
-    <Router>
+    <Router basename="/admin">
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
