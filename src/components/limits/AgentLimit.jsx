@@ -179,11 +179,11 @@ const AgentLimit = () => {
                     <tr>
                       <th>S.N.</th>
                       <th>Agent Code</th>
-                      <th className="d-none d-xl-table-cell">Old Limit</th>
-                      <th className="d-none d-xl-table-cell"><span style={{ color: "green" }}>Plus</span>/<span style={{ color: "red" }}>Minus</span></th>
-                      <th className="d-none d-xl-table-cell">New Limit</th>
-                      <th className="d-none d-xl-table-cell">Date Time</th>
-                      <th className="d-none d-xl-table-cell">User</th>
+                      <th >Old Limit</th>
+                      <th ><span style={{ color: "green" }}>Plus</span>/<span style={{ color: "red" }}>Minus</span></th>
+                      <th >New Limit</th>
+                      <th >Date Time</th>
+                      <th >User</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -193,7 +193,7 @@ const AgentLimit = () => {
                           <tr key={item._id}>
                             <td>{(currentPage - 1) * limit + index + 1}</td>
                             <td>{`${item.agent?.userName} ${item.agent?.name}`}</td>
-                            <td className="d-none d-xl-table-cell">{item.oldLimit}</td>
+                            <td >{item.oldLimit}</td>
                             <td className="d-none d-md-table-cell">
                               <span style={{ color: item.amount > 0 ? "green" : "red" }}>{item.amount}</span>
                             </td>

@@ -227,11 +227,11 @@ const ClientLimit = () => {
                     <tr>
                       <th>S.N.</th>
                       <th>Client Code</th>
-                      <th className="d-none d-xl-table-cell">Old Limit</th>
-                      <th className="d-none d-xl-table-cell"><span style={{ color: "green" }}>Plus</span>/<span style={{ color: "red" }}>Minus</span></th>
-                      <th className="d-none d-xl-table-cell">New Limit</th>
-                      <th className="d-none d-xl-table-cell">Date Time</th>
-                      <th className="d-none d-xl-table-cell">User</th>
+                      <th >Old Limit</th>
+                      <th ><span style={{ color: "green" }}>Plus</span>/<span style={{ color: "red" }}>Minus</span></th>
+                      <th >New Limit</th>
+                      <th >Date Time</th>
+                      <th >User</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -241,7 +241,7 @@ const ClientLimit = () => {
                           <tr key={item._id}>
                             <td>{index + 1}</td>
                             <td>{`${item.client.userName} ${item.client.name}`}</td>
-                            <td className="d-none d-xl-table-cell">{item.oldLimit}</td>
+                            <td >{item.oldLimit}</td>
                             <td className="d-none d-md-table-cell">
                               <span style={{ color: item.amount > 0 ? "green" : "red" }}>{item.amount}</span>
                             </td>

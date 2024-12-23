@@ -71,15 +71,15 @@ const ClientList = () => {
                             <tr>
                                 <th>S.N.</th>
                                 <th>Code[Password]</th>
-                                <th className="d-none d-xl-table-cell">Client Name</th>
-                                <th className="d-none d-xl-table-cell">Mobile Number</th>
-                                <th className="d-none d-xl-table-cell">Agent Name</th>
-                                <th className="d-none d-xl-table-cell">D.O.J</th>
-                                <th className="d-none d-xl-table-cell">Limit</th>
-                                <th className="d-none d-xl-table-cell">Rate</th>
-                                <th className="d-none d-xl-table-cell">Agent Comm.</th>
-                                <th className="d-none d-xl-table-cell">Client Comm.</th>
-                                <th className="d-none d-xl-table-cell">Share</th>
+                                <th >Client Name</th>
+                                <th >Mobile Number</th>
+                                <th >Agent Name</th>
+                                <th >D.O.J</th>
+                                <th >Limit</th>
+                                <th >Rate</th>
+                                <th >Agent Comm.</th>
+                                <th >Client Comm.</th>
+                                <th >Share</th>
                                 <th>Status</th>
                                 <th>Action</th>
 
@@ -92,14 +92,14 @@ const ClientList = () => {
                                         <tr key={item._id}>
                                             <td>{index + 1}</td>
                                             <td>{item.userName} [{item.plane_password}]</td>
-                                            <td className="d-none d-xl-table-cell">{item.name}</td>
-                                            <td className="d-none d-xl-table-cell">{item.mobileNumber}</td>
-                                            <td className="d-none d-xl-table-cell">{`${item?.agent?.name} (${item?.agent?.userName})`}</td>
+                                            <td >{item.name}</td>
+                                            <td >{item.mobileNumber}</td>
+                                            <td >{`${item?.agent?.name} (${item?.agent?.userName})`}</td>
                                             <td className="d-none d-md-table-cell">{formatDate(item.createdAt)}</td>
                                             <td className="d-none d-md-table-cell">{item.limit}</td>
                                             <td className="d-none d-md-table-cell">{item.rate}%</td>
-                                            <td className="d-none d-xl-table-cell">{item?.agentCommission}%</td>
-                                            <td className="d-none d-xl-table-cell">{item?.clientCommission}%</td>
+                                            <td >{item?.agentCommission}%</td>
+                                            <td >{item?.clientCommission}%</td>
                                             <td className="d-none d-md-table-cell">{item.clientShare}</td>
                                             <td>
                                                 {

@@ -66,8 +66,8 @@ const DrowList = () => {
                             <tr>
                                 <th>S.N.</th>
                                 <th>Name</th>
-                                <th className="d-none d-xl-table-cell">Open Time</th>
-                                <th className="d-none d-xl-table-cell">Closed Time</th>
+                                <th >Open Time</th>
+                                <th >Closed Time</th>
                                 <th>Status</th>
                                 <th>Action</th>
 
@@ -80,7 +80,7 @@ const DrowList = () => {
                                         <tr key={item._id}>
                                             <td>{index + 1}</td>
                                             
-                                            <td className="d-none d-xl-table-cell">{item.name}</td>
+                                            <td >{item.name}</td>
                                             <td className="d-none d-md-table-cell">{item.openTime}</td>
                                             <td className="d-none d-md-table-cell">{item.closeTime}</td>
                                             <td>

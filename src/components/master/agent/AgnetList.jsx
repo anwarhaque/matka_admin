@@ -71,12 +71,12 @@ const AgnetList = () => {
               <tr>
                 <th>S.N.</th>
                 <th>Code[Password]</th>
-                <th className="d-none d-xl-table-cell">Agent Name</th>
-                <th className="d-none d-xl-table-cell">Mobile Number</th>
-                <th className="d-none d-xl-table-cell">Limit</th>
-                <th className="d-none d-xl-table-cell">D.O.J</th>
-                {/* <th className="d-none d-xl-table-cell">Super Agent Comm.</th> */}
-                <th className="d-none d-xl-table-cell">Agent Share</th>
+                <th >Agent Name</th>
+                <th >Mobile Number</th>
+                <th >Limit</th>
+                <th >D.O.J</th>
+                {/* <th >Super Agent Comm.</th> */}
+                <th >Agent Share</th>
                 <th>Status</th>
                 <th>Action</th>
 
@@ -89,8 +89,8 @@ const AgnetList = () => {
                     <tr key={item._id}>
                       <td>{index + 1}</td>
                       <td>{item.userName} [{item.plane_password}]</td>
-                      <td className="d-none d-xl-table-cell">{item.name}</td>
-                      <td className="d-none d-xl-table-cell">{item.mobileNumber}</td>
+                      <td >{item.name}</td>
+                      <td >{item.mobileNumber}</td>
                       <td className="d-none d-md-table-cell">{item.limit}</td>
                       <td className="d-none d-md-table-cell">{formatDate(item.createdAt)}</td>
                       {/* <td className="d-none d-md-table-cell">{item.commission}</td> */}
