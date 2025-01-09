@@ -67,7 +67,7 @@ const ClientList = () => {
                         <Link type="button" className='btn btn-primary float-right' to='./add'>Add Client</Link>
                     </div>
                     <table className="table table-hover my-0">
-                        <thead>
+                        <thead className='bg-cadetblue'>
                             <tr>
                                 <th>S.N.</th>
                                 <th>Code[Password]</th>

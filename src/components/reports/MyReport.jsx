@@ -168,7 +168,7 @@ const MyReport = () => {
                             {
                               client?.groupedData?.map((drow, index) => (
                                 <React.Fragment key={index}>
-                                  <tr className="text-center text-bg-success">
+                                  <tr className="text-center bg-cadetblue">
                                     <th colSpan="4">{drow?.drowDetails?.name}</th>
                                     <th colSpan="5">Single</th>
                                     <th colSpan="3">Jodi</th>
@@ -250,7 +250,7 @@ const MyReport = () => {
                                         }
                                       </td>
 
-                                      <td>
+                                      <td className='bg-red'>
                                         {
                                           (day?.totals?.SINGLE_OPEN?.totalResultAmount || 0) +
                                           (day?.totals?.SINGLE_CLOSE?.totalResultAmount || 0) +
@@ -259,7 +259,7 @@ const MyReport = () => {
                                           (day?.totals?.PATTI_CLOSE?.totalResultAmount || 0)
                                         }
                                       </td>
-                                      <td>
+                                      <td className='bg-blue'>
                                         {
                                           (day?.totals?.SINGLE_OPEN?.totalClientCommAmount || 0) +
                                           (day?.totals?.SINGLE_CLOSE?.totalClientCommAmount || 0) +
@@ -268,7 +268,7 @@ const MyReport = () => {
                                           (day?.totals?.PATTI_CLOSE?.totalClientCommAmount || 0)
                                         }
                                       </td>
-                                      <td>
+                                      <td className='bg-blue'>
                                         {
                                           (day?.totals?.SINGLE_OPEN?.totalResultAmount || 0) +
                                           (day?.totals?.SINGLE_CLOSE?.totalResultAmount || 0) +
@@ -464,7 +464,7 @@ const MyReport = () => {
                                     </td>
 
 
-                                    <td>
+                                    <td className='bg-red'>
                                       {
                                         drow?.days?.reduce(
                                           (acc, day) =>
@@ -478,7 +478,7 @@ const MyReport = () => {
                                           0)
                                       }
                                     </td>
-                                    <td>
+                                    <td className='bg-blue'>
                                       {
                                         drow?.days?.reduce(
                                           (acc, day) =>
@@ -492,7 +492,7 @@ const MyReport = () => {
                                           0)
                                       }
                                     </td>
-                                    <td>
+                                    <td className='bg-blue'>
                                       {
                                         drow?.days?.reduce(
                                           (acc, day) =>
@@ -775,7 +775,7 @@ const MyReport = () => {
                               </td>
 
 
-                              <td>
+                              <td className='bg-red'>
                                 {
                                   client?.groupedData?.reduce((acc, drow) => acc + (
 
@@ -794,7 +794,7 @@ const MyReport = () => {
                                   ), 0)
                                 }
                               </td>
-                              <td>
+                              <td className='bg-blue'>
                                 {
                                   client?.groupedData?.reduce((acc, drow) => acc + (
 
@@ -813,7 +813,7 @@ const MyReport = () => {
                                   ), 0)
                                 }
                               </td>
-                              <td>
+                              <td className='bg-blue'>
                                 {
                                   client?.groupedData?.reduce((acc, drow) => acc + (
 
@@ -1189,7 +1189,7 @@ const MyReport = () => {
                   </td>
 
 
-                  <td>
+                  <td className='bg-red'>
                     {
                       reports.reduce((acc, agents) => acc + (
                         agents?.clients?.reduce((acc, client) => acc + (
@@ -1213,7 +1213,7 @@ const MyReport = () => {
                       ), 0)
                     }
                   </td>
-                  <td>
+                  <td className='bg-blue'>
                     {
                       reports.reduce((acc, agents) => acc + (
                         agents?.clients?.reduce((acc, client) => acc + (
@@ -1237,7 +1237,7 @@ const MyReport = () => {
                       ), 0)
                     }
                   </td>
-                  <td>
+                  <td className='bg-blue'>
                     {
 
                       reports.reduce((acc, agents) => acc + (

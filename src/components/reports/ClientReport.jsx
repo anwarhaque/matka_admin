@@ -236,7 +236,7 @@ const ClientReport = () => {
                             }
                           </td>
 
-                          <td>
+                          <td className='bg-red'>
                             {
                               (value?.SINGLE_OPEN?.totalResultAmount || 0) +
                               (value?.SINGLE_CLOSE?.totalResultAmount || 0) +
@@ -245,7 +245,7 @@ const ClientReport = () => {
                               (value?.PATTI_CLOSE?.totalResultAmount || 0)
                             }
                           </td>
-                          <td>
+                          <td className='bg-red'>
                             {
                               (value?.SINGLE_OPEN?.totalClientCommAmount || 0) +
                               (value?.SINGLE_CLOSE?.totalClientCommAmount || 0) +
@@ -254,7 +254,7 @@ const ClientReport = () => {
                               (value?.PATTI_CLOSE?.totalClientCommAmount || 0)
                             }
                           </td>
-                          <td>
+                          <td className='bg-blue'>
                             {
                               (value?.SINGLE_OPEN?.totalResultAmount || 0) +
                               (value?.SINGLE_CLOSE?.totalResultAmount || 0) +
@@ -450,7 +450,7 @@ const ClientReport = () => {
                         </td>
 
 
-                        <td>
+                        <td className='bg-red'>
                           {
                             Object.entries(item.groupedData).reduce(
                               (acc, [key, value]) =>
@@ -464,7 +464,7 @@ const ClientReport = () => {
                               0)
                           }
                         </td>
-                        <td>
+                        <td className='bg-red'>
                           {
                             Object.entries(item.groupedData).reduce(
                               (acc, [key, value]) =>
@@ -478,7 +478,7 @@ const ClientReport = () => {
                               0)
                           }
                         </td>
-                        <td>
+                        <td className='bg-blue'>
                           {
                             Object.entries(item.groupedData).reduce(
                               (acc, [key, value]) =>
@@ -763,7 +763,7 @@ const ClientReport = () => {
                   </td>
 
 
-                  <td>
+                  <td className='bg-red'>
                     {
                       reports.reduce((acc, item) => acc + (
 
@@ -782,7 +782,7 @@ const ClientReport = () => {
                       ), 0)
                     }
                   </td>
-                  <td>
+                  <td className='bg-red'>
                     {
                       reports.reduce((acc, item) => acc + (
 
@@ -801,7 +801,7 @@ const ClientReport = () => {
                       ), 0)
                     }
                   </td>
-                  <td>
+                  <td className='bg-red'>
                     {
                       reports.reduce((acc, item) => acc + (
 

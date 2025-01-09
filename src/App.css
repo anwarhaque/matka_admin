@@ -52,3 +52,27 @@ input[type='number']::-webkit-inner-spin-button {
 .input-patti{
   width: 20% !important;
 }
+
+tr:nth-child(even) {
+  background-color: #e9e8e8;
+}
+
+.bg-red{
+  background:#ff000078!important;
+  color:#ffffff!important;
+}
+
+.bg-blue{
+  background: #1976d296!important;
+  color: #ffffff!important;
+}
+
+.bg-purple{
+  background: purple!important;
+  color: #ffffff!important;
+}
+
+.bg-cadetblue{
+  background: cadetblue!important;
+    color: #fff!important;
+}

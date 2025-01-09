@@ -244,7 +244,7 @@ const AgentReport = () => {
                                   }
                                 </td>
 
-                                <td>
+                                <td className='bg-red'>
                                   {
                                     (day?.totals?.SINGLE_OPEN?.totalResultAmount || 0) +
                                     (day?.totals?.SINGLE_CLOSE?.totalResultAmount || 0) +
@@ -253,7 +253,7 @@ const AgentReport = () => {
                                     (day?.totals?.PATTI_CLOSE?.totalResultAmount || 0)
                                   }
                                 </td>
-                                <td>
+                                <td className='bg-blue'>
                                   {
                                     (day?.totals?.SINGLE_OPEN?.totalClientCommAmount || 0) +
                                     (day?.totals?.SINGLE_CLOSE?.totalClientCommAmount || 0) +
@@ -262,7 +262,7 @@ const AgentReport = () => {
                                     (day?.totals?.PATTI_CLOSE?.totalClientCommAmount || 0)
                                   }
                                 </td>
-                                <td>
+                                <td className='bg-blue'>
                                   {
                                     (day?.totals?.SINGLE_OPEN?.totalResultAmount || 0) +
                                     (day?.totals?.SINGLE_CLOSE?.totalResultAmount || 0) +
@@ -458,7 +458,7 @@ const AgentReport = () => {
                               </td>
 
 
-                              <td>
+                              <td className='bg-red'>
                                 {
                                   drow?.days?.reduce(
                                     (acc, day) =>
@@ -472,7 +472,7 @@ const AgentReport = () => {
                                     0)
                                 }
                               </td>
-                              <td>
+                              <td className='bg-blue'>
                                 {
                                   drow?.days?.reduce(
                                     (acc, day) =>
@@ -486,7 +486,7 @@ const AgentReport = () => {
                                     0)
                                 }
                               </td>
-                              <td>
+                              <td className='bg-blue'>
                                 {
                                   drow?.days?.reduce(
                                     (acc, day) =>
@@ -769,7 +769,7 @@ const AgentReport = () => {
                         </td>
 
 
-                        <td>
+                        <td className='bg-red'>
                           {
                             client?.groupedData?.reduce((acc, drow) => acc + (
 
@@ -788,7 +788,7 @@ const AgentReport = () => {
                             ), 0)
                           }
                         </td>
-                        <td>
+                        <td className='bg-blue'>
                           {
                             client?.groupedData?.reduce((acc, drow) => acc + (
 
@@ -807,7 +807,7 @@ const AgentReport = () => {
                             ), 0)
                           }
                         </td>
-                        <td>
+                        <td className='bg-blue'>
                           {
                             client?.groupedData?.reduce((acc, drow) => acc + (
 
@@ -1139,7 +1139,7 @@ const AgentReport = () => {
                   </td>
 
 
-                  <td>
+                  <td className='bg-red'>
                     {
 
                       reports?.reduce((acc, client) => acc + (
@@ -1162,7 +1162,7 @@ const AgentReport = () => {
                       ), 0)
                     }
                   </td>
-                  <td>
+                  <td className='bg-blue'>
                     {
                       reports?.reduce((acc, client) => acc + (
 
@@ -1184,7 +1184,7 @@ const AgentReport = () => {
                       ), 0)
                     }
                   </td>
-                  <td>
+                  <td className='bg-blue'>
                     {
 
                       reports?.reduce((acc, client) => acc + (

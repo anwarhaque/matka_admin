@@ -363,9 +363,9 @@ const OpenStatus = () => {
                         <table className="table table-bordered my-0">
                             <tbody>
                                 <tr>
-                                    <th>NUM</th>
-                                    <th>BOOK</th>
-                                    <th>Profit/Loss</th>
+                                    <th className='bg-purple'>NUM</th>
+                                    <th className='bg-purple'>BOOK</th>
+                                    <th className='bg-purple'>Profit/Loss</th>
                                 </tr>
                                 {
                                     singleList.map(item => (
@@ -388,9 +388,9 @@ const OpenStatus = () => {
                         <table className="table table-bordered my-0">
                             <tbody>
                                 <tr>
-                                    <th>JODI</th>
-                                    <th>AMOUNT</th>
-                                    <th>Profit/Loss</th>
+                                    <th className='bg-purple'>JODI</th>
+                                    <th className='bg-purple'>AMOUNT</th>
+                                    <th className='bg-purple'>Profit/Loss</th>
                                 </tr>
                                 {
                                     jodiList.map(item => (
@@ -413,9 +413,9 @@ const OpenStatus = () => {
                         <table className="table table-bordered my-0">
                             <tbody>
                                 <tr>
-                                    <th>PATTI</th>
-                                    <th>AMOUNT</th>
-                                    <th>Profit/Loss</th>
+                                    <th className='bg-purple'>PATTI</th>
+                                    <th className='bg-purple'>AMOUNT</th>
+                                    <th className='bg-purple'>Profit/Loss</th>
                                 </tr>
                                 {
                                     pattiList.map(item => (
@@ -438,7 +438,7 @@ const OpenStatus = () => {
                         <table className="table table-bordered my-0">
                             <tbody>
                                 <tr>
-                                    <th colSpan="4" className='text-center p-2'>CURRENT OPEN STATUS</th>
+                                    <th colSpan="4" className='text-center p-2 bg-purple'>CURRENT OPEN STATUS</th>
                                 </tr>
                                 <tr>
                                     <th>ROUND</th>
