@@ -11,7 +11,9 @@ const Sidebar = () => {
     <nav id="sidebar" className="sidebar js-sidebar">
       <div className="sidebar-content js-simplebar">
         <Link className="sidebar-brand" to="/dashboard">
-          <span className="align-middle"><img src={logo} alt="Logo" style={{ width: "100%" }} /></span>
+          <span className="align-middle">
+            <img src={logo} alt="Logo" style={{ width: "100%" }} />
+            </span>
         </Link>
 
         <ul className="sidebar-nav">
@@ -76,6 +78,11 @@ const Sidebar = () => {
           <li className={`sidebar-item ${isActive("/agent-limit") ? "active" : ""}`}>
             <Link className="sidebar-link" to="/agent-limit">
               <i className="align-middle" data-feather="user"></i> <span className="align-middle">Agent Limit</span>
+            </Link>
+          </li>
+          <li className={`sidebar-item ${isActive("/change-password") ? "active" : ""}`}>
+            <Link className="sidebar-link" to="/change-password">
+              <i className="align-middle" data-feather="user"></i> <span className="align-middle">Change Password</span>
             </Link>
           </li>
         </ul>
