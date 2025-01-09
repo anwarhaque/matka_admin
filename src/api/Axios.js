@@ -35,7 +35,7 @@ Axios.interceptors.response.use(
       if (error.response.status === 401) {
         // Handle unauthorized error (e.g., redirect to login or refresh token)
         // You can clear token and redirect to login
-        localStorage.removeItem('authToken');
+        localStorage.removeItem('superAuthToken');
         window.location.href = '/login'; // Redirect to login page
       }
       // Handle other error statuses like 403, 404, 500, etc.
