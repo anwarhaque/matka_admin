@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Axios from '../api/Axios';
 import Notifier from './Notifier';
+import userPic from '../assets/img/user-pic.png';
 
 function Profile() {
   const [profile, setProfile] = useState(null);
@@ -9,7 +10,7 @@ function Profile() {
   useEffect(() => {
     const getProfileData = async () => {
       try {
-        const { data } = await Axios.get('/getProfile');
+        const { data } = await Axios.get('/admin/getProfile');
        
         setProfile(data)
       } catch (err) {
@@ -33,7 +34,7 @@ function Profile() {
             {loading ? (<>Loading...</>) : (<>
               {profile ? (
                 <>
-                  <img src="img/avatars/user-pic.png" alt="Christina Mason" className="img-fluid rounded-circle mb-2" width="128" height="128" />
+                  <img src={userPic} alt="Christina Mason" className="img-fluid rounded-circle mb-2" width="128" height="128" />
                   <h5 className="card-title mb-0">{profile?.name} ({profile?.userName})</h5>
                   <h5 className="card-title mb-0">{profile.mobileNumber}</h5>
                   <div className="text-muted mb-2">{profile.userType}</div>
