@@ -3,8 +3,8 @@ import axios from 'axios';
 import Notifier from '../components/Notifier';
 
 const Axios = axios.create({
-  // baseURL: 'http://localhost:3000/v1/api', // local
-  baseURL: 'http://13.202.210.159/v1/api', // production
+  baseURL: 'http://localhost:3000/v1/api', // local
+  // baseURL: 'http://13.202.210.159/v1/api', // production
   headers: {
     'Content-Type': 'application/json',
   },

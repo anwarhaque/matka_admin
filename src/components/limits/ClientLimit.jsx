@@ -14,7 +14,7 @@ const ClientLimit = () => {
   const [addLimit, setAddLimit] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const limit = 2;
+  const limit = 10;
 
   const getUser = async (userId) => {
     try {
@@ -39,7 +39,7 @@ const ClientLimit = () => {
 
     try {
       await Axios.post('/limit/updateClientLimit', createData); // Use the Axios instance
-      // getLimitHistory(selectedClient._id)
+
       getUser(selectedClient._id)
     } catch (err) {
 
@@ -153,10 +153,7 @@ const ClientLimit = () => {
               <h5 className="h3 card-title mb-0">Add Limit</h5>
             </div>
             <div className="card-body">
-
               <form onSubmit={handleSubmit}>
-
-
                 <div className="form-group mb-2">
                   <label > Agent</label>
                   <select className="form-select mb-3" onChange={handelAgentOnchange} required>
@@ -252,13 +249,11 @@ const ClientLimit = () => {
                         ))
                       )
                     }
-
                   </tbody>
                 </table>
-                {listLimit.length && <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange}/>}
+                {listLimit.length && <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />}
               </div>
             </div>
-
           </div>
         )
       }

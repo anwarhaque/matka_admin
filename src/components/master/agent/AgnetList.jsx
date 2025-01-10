@@ -2,21 +2,37 @@ import { useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
 import Notifier from '../../Notifier';
 import Axios from '../../../api/Axios';
+import Pagination from '../../pagination/Pagination';
+
 const AgnetList = () => {
 
   const [list, setlist] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 10;
+
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+        setCurrentPage(page);
+    }
+};
 
   const getAgentList = async () => {
     try {
+      setLoading(true);
       const { data } = await Axios.get('/admin/listUser', {
         params: {
-          userType: "AGENT"
+          userType: "AGENT",
+          page: currentPage,
+          limit
         }
       });
     
 
       setlist(data)
+      setTotalPages(totalPages || 1)
     } catch (err) {
       Notifier(err.meta.msg, 'Error')
     } finally {
@@ -54,9 +70,8 @@ const AgnetList = () => {
 
 
   useEffect(() => {
-
     getAgentList();
-  }, []);
+  }, [currentPage]);
 
   return (
     <div className="row">
@@ -87,14 +102,13 @@ const AgnetList = () => {
                 loading ? (<tr><td calpan="4">Loading...</td></tr>) : (
                   list.map((item, index) => (
                     <tr key={item._id}>
-                      <td>{index + 1}</td>
+                      <td>{(currentPage - 1) * limit + index + 1}</td>
                       <td>{item.userName} [{item.plane_password}]</td>
-                      <td >{item.name}</td>
-                      <td >{item.mobileNumber}</td>
-                      <td className="d-none d-md-table-cell">{item.limit}</td>
-                      <td className="d-none d-md-table-cell">{formatDate(item.createdAt)}</td>
-                      {/* <td className="d-none d-md-table-cell">{item.commission}</td> */}
-                      <td className="d-none d-md-table-cell">{item.agentShare}</td>
+                      <td>{item.name}</td>
+                      <td>{item.mobileNumber}</td>
+                      <td>{item.limit}</td>
+                      <td>{formatDate(item.createdAt)}</td>
+                      <td>{item.agentShare}</td>
                       <td>
                         {
                           item.status == 'ACTIVE' ? (<span className="badge bg-success">{item.status}</span>) : (<span className="badge bg-danger">{item.status}</span>)
@@ -118,6 +132,7 @@ const AgnetList = () => {
 
             </tbody>
           </table>
+            {!loading && <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />}
         </div>
       </div>
 
