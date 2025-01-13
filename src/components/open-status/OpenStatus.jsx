@@ -103,32 +103,46 @@ const OpenStatus = () => {
         const newSingleList = singleList?.map(item => {
 
             if (item._id === singleNum) {
-                item.totalProfitLoss = - ((item.totalAmount * 9) + item.totalCommAmount)
+                item.totalProfitLoss = singleTotalAmount + jodiTotalAmount + pattiTotalAmount - ((item.totalAmount * 9) + item.totalCommAmount)
             } else {
-                item.totalProfitLoss = item.totalAmount - item.totalCommAmount
+                item.totalProfitLoss = singleTotalAmount + jodiTotalAmount + pattiTotalAmount -((item.totalAmount * 9) - item.totalCommAmount)
             }
             return item
         })
 
         const newPattiList = pattiList?.map(item => {
-            // console.log(item._id, pattiNum);
+            
 
             if (item._id === pattiNum) {
 
                 if (checkPatti(pattiNum) === 'SINGLE PATTI') {
-                    item.totalProfitLoss = - ((item.totalAmount * 140) + item.totalCommAmount)
+                    item.totalProfitLoss = singleTotalAmount + jodiTotalAmount + pattiTotalAmount - ((item.totalAmount * 140) + item.totalCommAmount)
                 }
                 else if (checkPatti(pattiNum) === 'DOUBLE PATTI') {
-                    item.totalProfitLoss = - ((item.totalAmount * 280) + item.totalCommAmount)
+                    item.totalProfitLoss = singleTotalAmount + jodiTotalAmount + pattiTotalAmount - ((item.totalAmount * 280) + item.totalCommAmount)
                 }
                 else if (checkPatti(pattiNum) === 'TRIPPLE PATTI') {
-                    item.totalProfitLoss = - ((item.totalAmount * 840) + item.totalCommAmount)
+                    item.totalProfitLoss = singleTotalAmount + jodiTotalAmount + pattiTotalAmount - ((item.totalAmount * 840) + item.totalCommAmount)
                 }
             } else {
-                item.totalProfitLoss = item.totalAmount - item.totalCommAmount
+                // item.totalProfitLoss = item.totalAmount - item.totalCommAmount
+                
+                if (checkPatti(item._id) === 'SINGLE PATTI') {
+                    item.totalProfitLoss = singleTotalAmount + jodiTotalAmount + pattiTotalAmount - ((item.totalAmount * 140) - item.totalCommAmount)
+                }
+                else if (checkPatti(item._id) === 'DOUBLE PATTI') {
+                    item.totalProfitLoss = singleTotalAmount + jodiTotalAmount + pattiTotalAmount - ((item.totalAmount * 280) - item.totalCommAmount)
+                }
+                else if (checkPatti(item._id) === 'TRIPPLE PATTI') {
+                    item.totalProfitLoss = singleTotalAmount + jodiTotalAmount + pattiTotalAmount - ((item.totalAmount * 840) - item.totalCommAmount)
+                }
             }
             return item
         })
+
+
+        console.log(newPattiList);
+        
 
         if (openPatti !== '' && closePatti !== '') {
             // console.log(closePatti);
@@ -138,9 +152,9 @@ const OpenStatus = () => {
             // console.log(jodiNum);
             const newJodiList = jodiList?.map(item => {
                 if (item._id === jodiNum) {
-                    item.totalProfitLoss = - ((item.totalAmount * 90) + item.totalCommAmount)
+                    item.totalProfitLoss = singleTotalAmount + jodiTotalAmount + pattiTotalAmount - ((item.totalAmount * 90) + item.totalCommAmount)
                 } else {
-                    item.totalProfitLoss = item.totalAmount - item.totalCommAmount
+                    item.totalProfitLoss = singleTotalAmount + jodiTotalAmount + pattiTotalAmount - ((item.totalAmount * 90) - item.totalCommAmount)
                 }
                 return item
             })
