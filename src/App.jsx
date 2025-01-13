@@ -2,7 +2,7 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./layouts/Layout";
-import Dashboard from "./components/Dashboard";
+// import Dashboard from "./components/Dashboard";
 import ChangePassword from "./components/ChangePassword";
 import Profile from "./components/Profile";
 import ClientReport from './components/reports/ClientReport';
@@ -27,6 +27,7 @@ import AddDrow from './components/master/drow/AddDrow';
 import EditDrow from './components/master/drow/EditDrow';
 import OpenStatus from './components/open-status/OpenStatus';
 import NotFound from './components/not-found/NotFound';
+import EditMarqueeNotification from './components/marquee-notification/EditMarqueeNotification';
 function App() {
 
   return (
@@ -36,7 +37,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
             
-            <Route path='dashboard' element={<Dashboard />} />
+            {/* <Route path='dashboard' element={<Dashboard />} /> */}
             <Route path="drow-master" element={<DrowList />} />
             <Route path="open-status" element={<OpenStatus />} />
             <Route path="drow-master/add" element={<AddDrow />} />
@@ -53,8 +54,9 @@ function App() {
             <Route path="client-limit" element={<ClientLimit />} />
             <Route path="agent-limit" element={<AgentLimit />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="marquee" element={<EditMarqueeNotification />} />
             <Route path="change-password" element={<ChangePassword />} />
-            <Route path="/" element={<Navigate to="/dashboard" />} />
+            <Route path="/" element={<Navigate to="/drow-master" />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
