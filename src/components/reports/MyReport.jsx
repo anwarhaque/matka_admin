@@ -270,16 +270,22 @@ const MyReport = () => {
                                       </td>
                                       <td className='bg-blue'>
                                         {
-                                          (day?.totals?.SINGLE_OPEN?.totalResultAmount || 0) +
-                                          (day?.totals?.SINGLE_CLOSE?.totalResultAmount || 0) +
-                                          (day?.totals?.JODI_OPEN?.totalResultAmount || 0) +
-                                          (day?.totals?.PATTI_OPEN?.totalResultAmount || 0) +
-                                          (day?.totals?.PATTI_CLOSE?.totalResultAmount || 0) +
-                                          (day?.totals?.SINGLE_OPEN?.totalClientCommAmount || 0) +
-                                          (day?.totals?.SINGLE_CLOSE?.totalClientCommAmount || 0) +
-                                          (day?.totals?.JODI_OPEN?.totalClientCommAmount || 0) +
-                                          (day?.totals?.PATTI_OPEN?.totalClientCommAmount || 0) +
-                                          (day?.totals?.PATTI_CLOSE?.totalClientCommAmount || 0)
+                                          (day?.totals?.SINGLE_OPEN?.totalAmount || 0) +
+                                          (day?.totals?.PATTI_OPEN?.totalAmount || 0) +
+                                          (day?.totals?.JODI_OPEN?.totalAmount || 0) +
+                                          (day?.totals?.SINGLE_CLOSE?.totalAmount || 0) +
+                                          (day?.totals?.PATTI_CLOSE?.totalAmount || 0)
+
+                                          - ((day?.totals?.SINGLE_OPEN?.totalResultAmount || 0) +
+                                            (day?.totals?.SINGLE_CLOSE?.totalResultAmount || 0) +
+                                            (day?.totals?.JODI_OPEN?.totalResultAmount || 0) +
+                                            (day?.totals?.PATTI_OPEN?.totalResultAmount || 0) +
+                                            (day?.totals?.PATTI_CLOSE?.totalResultAmount || 0) +
+                                            (day?.totals?.SINGLE_OPEN?.totalClientCommAmount || 0) +
+                                            (day?.totals?.SINGLE_CLOSE?.totalClientCommAmount || 0) +
+                                            (day?.totals?.JODI_OPEN?.totalClientCommAmount || 0) +
+                                            (day?.totals?.PATTI_OPEN?.totalClientCommAmount || 0) +
+                                            (day?.totals?.PATTI_CLOSE?.totalClientCommAmount || 0))
                                         }
                                       </td>
                                     </tr>
@@ -497,16 +503,22 @@ const MyReport = () => {
                                         drow?.days?.reduce(
                                           (acc, day) =>
                                             acc + (
-                                              (day?.totals?.SINGLE_OPEN?.totalResultAmount || 0) +
-                                              (day?.totals?.SINGLE_CLOSE?.totalResultAmount || 0) +
-                                              (day?.totals?.JODI_OPEN?.totalResultAmount || 0) +
-                                              (day?.totals?.PATTI_OPEN?.totalResultAmount || 0) +
-                                              (day?.totals?.PATTI_CLOSE?.totalResultAmount || 0) +
-                                              (day?.totals?.SINGLE_OPEN?.totalClientCommAmount || 0) +
-                                              (day?.totals?.SINGLE_CLOSE?.totalClientCommAmount || 0) +
-                                              (day?.totals?.JODI_OPEN?.totalClientCommAmount || 0) +
-                                              (day?.totals?.PATTI_OPEN?.totalClientCommAmount || 0) +
-                                              (day?.totals?.PATTI_CLOSE?.totalClientCommAmount || 0)
+                                              (day?.totals?.SINGLE_OPEN?.totalAmount || 0) +
+                                              (day?.totals?.PATTI_OPEN?.totalAmount || 0) +
+                                              (day?.totals?.JODI_OPEN?.totalAmount || 0) +
+                                              (day?.totals?.SINGLE_CLOSE?.totalAmount || 0) +
+                                              (day?.totals?.PATTI_CLOSE?.totalAmount || 0)
+
+                                              - ((day?.totals?.SINGLE_OPEN?.totalResultAmount || 0) +
+                                                (day?.totals?.SINGLE_CLOSE?.totalResultAmount || 0) +
+                                                (day?.totals?.JODI_OPEN?.totalResultAmount || 0) +
+                                                (day?.totals?.PATTI_OPEN?.totalResultAmount || 0) +
+                                                (day?.totals?.PATTI_CLOSE?.totalResultAmount || 0) +
+                                                (day?.totals?.SINGLE_OPEN?.totalClientCommAmount || 0) +
+                                                (day?.totals?.SINGLE_CLOSE?.totalClientCommAmount || 0) +
+                                                (day?.totals?.JODI_OPEN?.totalClientCommAmount || 0) +
+                                                (day?.totals?.PATTI_OPEN?.totalClientCommAmount || 0) +
+                                                (day?.totals?.PATTI_CLOSE?.totalClientCommAmount || 0))
                                             ),
                                           0)
                                       }
@@ -820,16 +832,22 @@ const MyReport = () => {
                                     drow?.days?.reduce(
                                       (acc, day) =>
                                         acc + (
-                                          (day?.totals?.SINGLE_OPEN?.totalResultAmount || 0) +
-                                          (day?.totals?.SINGLE_CLOSE?.totalResultAmount || 0) +
-                                          (day?.totals?.JODI_OPEN?.totalResultAmount || 0) +
-                                          (day?.totals?.PATTI_OPEN?.totalResultAmount || 0) +
-                                          (day?.totals?.PATTI_CLOSE?.totalResultAmount || 0) +
-                                          (day?.totals?.SINGLE_OPEN?.totalClientCommAmount || 0) +
-                                          (day?.totals?.SINGLE_CLOSE?.totalClientCommAmount || 0) +
-                                          (day?.totals?.JODI_OPEN?.totalClientCommAmount || 0) +
-                                          (day?.totals?.PATTI_OPEN?.totalClientCommAmount || 0) +
-                                          (day?.totals?.PATTI_CLOSE?.totalClientCommAmount || 0)
+                                          (day?.totals?.SINGLE_OPEN?.totalAmount || 0) +
+                                          (day?.totals?.PATTI_OPEN?.totalAmount || 0) +
+                                          (day?.totals?.JODI_OPEN?.totalAmount || 0) +
+                                          (day?.totals?.SINGLE_CLOSE?.totalAmount || 0) +
+                                          (day?.totals?.PATTI_CLOSE?.totalAmount || 0)
+
+                                          - ((day?.totals?.SINGLE_OPEN?.totalResultAmount || 0) +
+                                            (day?.totals?.SINGLE_CLOSE?.totalResultAmount || 0) +
+                                            (day?.totals?.JODI_OPEN?.totalResultAmount || 0) +
+                                            (day?.totals?.PATTI_OPEN?.totalResultAmount || 0) +
+                                            (day?.totals?.PATTI_CLOSE?.totalResultAmount || 0) +
+                                            (day?.totals?.SINGLE_OPEN?.totalClientCommAmount || 0) +
+                                            (day?.totals?.SINGLE_CLOSE?.totalClientCommAmount || 0) +
+                                            (day?.totals?.JODI_OPEN?.totalClientCommAmount || 0) +
+                                            (day?.totals?.PATTI_OPEN?.totalClientCommAmount || 0) +
+                                            (day?.totals?.PATTI_CLOSE?.totalClientCommAmount || 0))
                                         ),
                                       0)
 
@@ -1248,16 +1266,22 @@ const MyReport = () => {
                             drow?.days?.reduce(
                               (acc, day) =>
                                 acc + (
-                                  (day?.totals?.SINGLE_OPEN?.totalResultAmount || 0) +
-                                  (day?.totals?.SINGLE_CLOSE?.totalResultAmount || 0) +
-                                  (day?.totals?.JODI_OPEN?.totalResultAmount || 0) +
-                                  (day?.totals?.PATTI_OPEN?.totalResultAmount || 0) +
-                                  (day?.totals?.PATTI_CLOSE?.totalResultAmount || 0) +
-                                  (day?.totals?.SINGLE_OPEN?.totalClientCommAmount || 0) +
-                                  (day?.totals?.SINGLE_CLOSE?.totalClientCommAmount || 0) +
-                                  (day?.totals?.JODI_OPEN?.totalClientCommAmount || 0) +
-                                  (day?.totals?.PATTI_OPEN?.totalClientCommAmount || 0) +
-                                  (day?.totals?.PATTI_CLOSE?.totalClientCommAmount || 0)
+                                  (day?.totals?.SINGLE_OPEN?.totalAmount || 0) +
+                                  (day?.totals?.PATTI_OPEN?.totalAmount || 0) +
+                                  (day?.totals?.JODI_OPEN?.totalAmount || 0) +
+                                  (day?.totals?.SINGLE_CLOSE?.totalAmount || 0) +
+                                  (day?.totals?.PATTI_CLOSE?.totalAmount || 0)
+
+                                  - ((day?.totals?.SINGLE_OPEN?.totalResultAmount || 0) +
+                                    (day?.totals?.SINGLE_CLOSE?.totalResultAmount || 0) +
+                                    (day?.totals?.JODI_OPEN?.totalResultAmount || 0) +
+                                    (day?.totals?.PATTI_OPEN?.totalResultAmount || 0) +
+                                    (day?.totals?.PATTI_CLOSE?.totalResultAmount || 0) +
+                                    (day?.totals?.SINGLE_OPEN?.totalClientCommAmount || 0) +
+                                    (day?.totals?.SINGLE_CLOSE?.totalClientCommAmount || 0) +
+                                    (day?.totals?.JODI_OPEN?.totalClientCommAmount || 0) +
+                                    (day?.totals?.PATTI_OPEN?.totalClientCommAmount || 0) +
+                                    (day?.totals?.PATTI_CLOSE?.totalClientCommAmount || 0))
                                 ),
                               0)
 
