@@ -31,7 +31,7 @@ import EditMarqueeNotification from './components/marquee-notification/EditMarqu
 function App() {
 
   return (
-    <Router basename="/admin">
+    <Router basename="/">
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
